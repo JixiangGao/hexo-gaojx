@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Learn Blockchains by Building One | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="出处：https://pythoncaff.com/topics/82/build-your-own-block-chain-step-by-step-with-python  你是否会和我一样，对加密数字货币底层的区块链技术非常感兴趣，特别想了解他们的运行机制。 但是学习区块链技术并非一帆风顺，我看多了大量的视频教程还有各种课程，最终的感觉就是真正可用的实战课程太少。 我喜欢在实践中学习，尤其喜">
+<meta name="keywords" content="blockchains">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learn Blockchains by Building One">
+<meta property="og:url" content="http://yoursite.com/2018/02/06/learn-blockchains-by-building-one/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="出处：https://pythoncaff.com/topics/82/build-your-own-block-chain-step-by-step-with-python  你是否会和我一样，对加密数字货币底层的区块链技术非常感兴趣，特别想了解他们的运行机制。 但是学习区块链技术并非一帆风顺，我看多了大量的视频教程还有各种课程，最终的感觉就是真正可用的实战课程太少。 我喜欢在实践中学习，尤其喜">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://pythoncaffcdn.phphub.org/uploads/images/201801/10/1/XocCyBrwu5.png">
+<meta property="og:image" content="https://pythoncaffcdn.phphub.org/uploads/images/201801/10/1/0FhWFFwqhI.png">
+<meta property="og:image" content="https://pythoncaffcdn.phphub.org/uploads/images/201801/10/1/PCmpK0KOtn.png">
+<meta property="og:image" content="https://pythoncaffcdn.phphub.org/uploads/images/201801/10/1/dymRRmwPnx.png">
+<meta property="og:updated_time" content="2019-01-08T02:40:04.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Learn Blockchains by Building One">
+<meta name="twitter:description" content="出处：https://pythoncaff.com/topics/82/build-your-own-block-chain-step-by-step-with-python  你是否会和我一样，对加密数字货币底层的区块链技术非常感兴趣，特别想了解他们的运行机制。 但是学习区块链技术并非一帆风顺，我看多了大量的视频教程还有各种课程，最终的感觉就是真正可用的实战课程太少。 我喜欢在实践中学习，尤其喜">
+<meta name="twitter:image" content="https://pythoncaffcdn.phphub.org/uploads/images/201801/10/1/XocCyBrwu5.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-learn-blockchains-by-building-one" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/06/learn-blockchains-by-building-one/" class="article-date">
+  <time datetime="2018-02-06T15:41:18.000Z" itemprop="datePublished">2018-02-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Blockchains/">Blockchains</a>►<a class="article-category-link" href="/categories/Blockchains/Digital-currency/">Digital currency</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Learn Blockchains by Building One
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>出处：<a href="https://pythoncaff.com/topics/82/build-your-own-block-chain-step-by-step-with-python" target="_blank" rel="noopener">https://pythoncaff.com/topics/82/build-your-own-block-chain-step-by-step-with-python</a></p>
+<hr>
+<p>你是否会和我一样，对加密数字货币底层的区块链技术非常感兴趣，特别想了解他们的运行机制。 但是学习区块链技术并非一帆风顺，我看多了大量的视频教程还有各种课程，最终的感觉就是真正可用的实战课程太少。 我喜欢在实践中学习，尤其喜欢以代码为基础去了解整个工作机制。如果你我一样喜欢这种学习方式，当你学完本教程时，你将会知道区块链技术是如何工作的。</p>
+<h3 id="写在开始之前"><a href="#写在开始之前" class="headerlink" title="写在开始之前"></a>写在开始之前</h3><p>记住，区块链是一个 <em>不可变的、有序的</em> 被称为块的记录链。它们可以包含交易、文件或任何您喜欢的数据。但重要的是，他们用_哈希_ 一起被链接在一起。 如果你不熟悉哈希, <a href="https://learncryptography.com/hash-functions/what-are-hash-functions" target="_blank" rel="noopener">这里是一个解释</a>. <em>该指南的目的是什么?</em> 你可以舒服地阅读和编写基础的Python，因为我们将通过HTTP与区块链进行讨论，所以你也要了解HTTP的工作原理。 <em>我需要准备什么?</em> 确定安装了 <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">Python 3.6</a>+ (还有 <code>pip</code>) ，你还需要安装 Flask、 Requests 库:</p>
+<p>pip install Flask==0.12.2 requests==2.18.4</p>
+<p>对了, 你还需要一个支持HTTP的客户端, 比如 <a href="https://www.getpostman.com/" target="_blank" rel="noopener">Postman</a> 或者 cURL，其他也可以。 <a href="https://github.com/dvf/blockchain" target="_blank" rel="noopener">源码 可以点击这里</a></p>
+<hr>
+<h3 id="Step-1-创建一个区块链"><a href="#Step-1-创建一个区块链" class="headerlink" title="Step 1: 创建一个区块链"></a>Step 1: 创建一个区块链</h3><p>打开你最喜欢的文本编辑器或者IDE, 我个人比较喜欢 <a href="https://www.jetbrains.com/pycharm/" target="_blank" rel="noopener">PyCharm</a>. 新建一个名为<code>blockchain.py</code>的文件。 我们将只用这一个文件就可以。但是如果你还是不太清楚, 你也可以参考 <a href="https://github.com/dvf/blockchain" target="_blank" rel="noopener">源码</a>.</p>
+<h4 id="描述区块链"><a href="#描述区块链" class="headerlink" title="描述区块链"></a>描述区块链</h4><p>我们要创建一个 <code>Blockchain</code> 类 ，他的构造函数创建了一个初始化的空列表（要存储我们的区块链），并且另一个存储交易。下面是我们这个类的实例: <em>blockchain.py</em></p>
+<p>class Blockchain(object):<br>    def __init__(self):<br>        self.chain = []<br>        self.current_transactions = []</p>
+<pre><code>def new_block(self):
+    # Creates a new Block and adds it to the chain
+    pass
+
+def new_transaction(self):
+    # Adds a new transaction to the list of transactions
+    pass
+
+@staticmethod
+def hash(block):
+    # Hashes a Block
+    pass
+
+@property
+def last_block(self):
+    # Returns the last Block in the chain
+    pass
+</code></pre><p>我们的 <code>Blockchain</code> 类负责管理链式数据，它会存储交易并且还有添加新的区块到链式数据的Method。让我们开始扩充更多Method</p>
+<hr>
+<h4 id="块是什么样的"><a href="#块是什么样的" class="headerlink" title="块是什么样的 ?"></a>块是什么样的 ?</h4><p>每个块都有一个 <code>索引</code>，一个 <code>时间戳（Unix时间戳）</code>，一个<code>事务列表</code>， 一个 <code>校验</code>(稍后详述) 和 <code>前一个块的散列</code> 。 下面是一个Block的例子 ： <em>blockchain.py</em></p>
+<p>block = {<br>    ‘index’: 1,<br>    ‘timestamp’: 1506057125.900785,<br>    ‘transactions’: [<br>        {<br>            ‘sender’: “8527147fe1f5426f9dd545de4b27ee00”,<br>            ‘recipient’: “a77f5cdfa2934df3954a5c7c7da5df1f”,<br>            ‘amount’: 5,<br>        }<br>    ],<br>    ‘proof’: 324984774000,<br>    ‘previous_hash’: “2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824”<br>}</p>
+<p>在这一点上，一个 <code>区块链</code> 的概念应该是明显的 - 每个新块都包含在其内的前一个块的 <code>散列</code> 。 这是至关重要的，因为这是 <code>区块链</code> 不可改变的原因：如果攻击者损坏 <code>区块链</code> 中较早的块，则所有后续块将包含不正确的哈希值。 <em>这有道理吗？ 如果你还没有想通，花点时间仔细思考一下 - 这是区块链背后的核心理念</em></p>
+<hr>
+<h4 id="添加交易到区块"><a href="#添加交易到区块" class="headerlink" title="添加交易到区块"></a>添加交易到区块</h4><p>我们将需要一个添加交易到区块的方式。我们的 <code>new_transaction()</code>方法的责任就是这个， 并且它非常的简单: <em>blockchain.py</em></p>
+<p>class Blockchain(object):<br>    …</p>
+<pre><code>def new_transaction(self, sender, recipient, amount):
+    &quot;&quot;&quot;
+    Creates a new transaction to go into the next mined Block
+    :param sender: &lt;str&gt; Address of the Sender
+    :param recipient: &lt;str&gt; Address of the Recipient
+    :param amount: &lt;int&gt; Amount
+    :return: &lt;int&gt; The index of the Block that will hold this transaction
+    &quot;&quot;&quot;
+
+    self.current_transactions.append({
+        &apos;sender&apos;: sender,
+        &apos;recipient&apos;: recipient,
+        &apos;amount&apos;: amount,
+    })
+
+    return self.last_block\[&apos;index&apos;\] + 1
+</code></pre><p><code>new_transaction()</code> 方法添加了交易到列表，它返回了交易将被添加到的区块的_索引<em>---</em>讲开采下一个_这对稍后对提交交易的用户有用。</p>
+<hr>
+<h4 id="创建新的区块"><a href="#创建新的区块" class="headerlink" title="创建新的区块"></a>创建新的区块</h4><p>当我们的  <code>Blockchain</code>  被实例化后，我们需要将 _创世_ 区块（一个没有前导区块的区块）添加进去进去。我们还需要向我们的起源块添加一个 _证明_，这是挖矿的结果(或工作证明)。 我们稍后会详细讨论挖矿。 除了在构造函数中创建 _创世_ 区块外，我们还会补全  <code>new_block()</code> 、  <code>new_transaction()</code>  和 <code>hash()</code>函数： <em>blockchain.py</em></p>
+<p>import hashlib<br>import json<br>from time import time</p>
+<p>class Blockchain(object):<br>    def __init__(self):<br>        self.current_transactions = []<br>        self.chain = []</p>
+<pre><code>    # 创建创世区块
+    self.new\_block(previous\_hash=1, proof=100)
+
+def new\_block(self, proof, previous\_hash=None):
+    &quot;&quot;&quot;
+    创建一个新的区块到区块链中
+    :param proof: &lt;int&gt; 由工作证明算法生成的证明
+    :param previous_hash: (Optional) &lt;str&gt; 前一个区块的 hash 值
+    :return: &lt;dict&gt; 新区块
+    &quot;&quot;&quot;
+
+    block = {
+        &apos;index&apos;: len(self.chain) + 1,
+        &apos;timestamp&apos;: time(),
+        &apos;transactions&apos;: self.current_transactions,
+        &apos;proof&apos;: proof,
+        &apos;previous\_hash&apos;: previous\_hash or self.hash(self.chain\[-1\]),
+    }
+
+    # 重置当前交易记录
+    self.current_transactions = \[\]
+
+    self.chain.append(block)
+    return block
+
+def new_transaction(self, sender, recipient, amount):
+    &quot;&quot;&quot;
+    创建一笔新的交易到下一个被挖掘的区块中
+    :param sender: &lt;str&gt; 发送人的地址
+    :param recipient: &lt;str&gt; 接收人的地址
+    :param amount: &lt;int&gt; 金额
+    :return: &lt;int&gt; 持有本次交易的区块索引
+    &quot;&quot;&quot;
+    self.current_transactions.append({
+        &apos;sender&apos;: sender,
+        &apos;recipient&apos;: recipient,
+        &apos;amount&apos;: amount,
+    })
+
+    return self.last_block\[&apos;index&apos;\] + 1
+
+@property
+def last_block(self):
+    return self.chain\[-1\]
+
+@staticmethod
+def hash(block):
+    &quot;&quot;&quot;
+    给一个区块生成 SHA-256 值
+    :param block: &lt;dict&gt; Block
+    :return: &lt;str&gt;
+    &quot;&quot;&quot;
+
+    # 我们必须确保这个字典（区块）是经过排序的，否则我们将会得到不一致的散列
+    block\_string = json.dumps(block, sort\_keys=True).encode()
+    return hashlib.sha256(block_string).hexdigest()
+</code></pre><p>上面的代码应该是直白的 --- 为了让代码清晰，我添加了一些注释和文档说明。 我们差不多完成了我们的区块链。 但在这个时候你一定很疑惑新的块是怎么被创建、锻造或挖掘的。</p>
+<hr>
+<h4 id="工作量证明算法"><a href="#工作量证明算法" class="headerlink" title="工作量证明算法"></a>工作量证明算法</h4><p>使用工作量证明（PoW）算法，来证明是如何在区块链上创建或挖掘新的区块。PoW 的目标是计算出一个符合特定条件的数字，这个数字对于所有人而言必须在计算上非常困难，但易于验证。这是工作证明背后的核心思想。 我们将看到一个简单的例子帮助你理解： 假设一个整数 x 乘以另一个整数 y 的积的 Hash 值必须以 0 结尾，即 hash(x * y) = ac23dc…0。设 x = 5，求 y ？用 Python 实现：</p>
+<p>from hashlib import sha256<br>x = 5<br>y = 0  # We don’t know what y should be yet…<br>while sha256(f’{x*y}’.encode()).hexdigest()[-1] != “0”:<br>    y += 1<br>print(f’The solution is y = {y}’)</p>
+<p>结果是： y = 21。因为，生成的 Hash 值结尾必须为 0。</p>
+<p>hash(5 * 21) = 1253e9373e…5e3600155e860</p>
+<p>在比特币中，工作量证明算法被称为 <a href="https://en.wikipedia.org/wiki/Hashcash" target="_blank" rel="noopener">Hashcash</a> ，它和上面的问题很相似，只不过计算难度非常大。这就是矿工们为了争夺创建区块的权利而争相计算的问题。 通常，计算难度与目标字符串需要满足的特定字符的数量成正比，矿工算出结果后，就会获得一定数量的比特币奖励（通过交易）。 验证结果，当然非常容易。</p>
+<hr>
+<p>实现工作量证明 让我们来实现一个相似 PoW 算法。规则类似上面的例子：</p>
+<ul>
+<li>[mark]找到一个数字 P ，使得它与前一个区块的 proof 拼接成的字符串的 Hash 值以 4 个零开头。[/mark]</li>
+</ul>
+<p><em>blockchain.py</em></p>
+<p>import hashlib<br>import json</p>
+<p>from time import time<br>from uuid import uuid4</p>
+<p>class Blockchain(object):<br>    …</p>
+<pre><code>def proof\_of\_work(self, last_proof):
+    &quot;&quot;&quot;
+    Simple Proof of Work Algorithm:
+     \- Find a number p&apos; such that hash(pp&apos;) contains leading 4 zeroes, where p is the previous p&apos;
+     \- p is the previous proof, and p&apos; is the new proof
+    :param last_proof: &lt;int&gt;
+    :return: &lt;int&gt;
+    &quot;&quot;&quot;
+
+    proof = 0
+    while self.valid\_proof(last\_proof, proof) is False:
+        proof += 1
+
+    return proof
+
+@staticmethod
+def valid\_proof(last\_proof, proof):
+    &quot;&quot;&quot;
+    Validates the Proof: Does hash(last_proof, proof) contain 4 leading zeroes?
+    :param last_proof: &lt;int&gt; Previous Proof
+    :param proof: &lt;int&gt; Current Proof
+    :return: &lt;bool&gt; True if correct, False if not.
+    &quot;&quot;&quot;
+
+    guess = f&apos;{last_proof}{proof}&apos;.encode()
+    guess_hash = hashlib.sha256(guess).hexdigest()
+    return guess_hash\[:4\] == &quot;0000&quot;
+</code></pre><p>衡量算法复杂度的办法是修改零开头的个数。使用 4 个来用于演示，你会发现多一个零都会大大增加计算出结果所需的时间。 现在 Blockchain 类基本已经完成了，接下来使用 HTTP requests 来进行交互。</p>
+<hr>
+<h3 id="Step-2-Blockchain-作为-API-接口"><a href="#Step-2-Blockchain-作为-API-接口" class="headerlink" title="Step 2: Blockchain 作为 API 接口"></a>Step 2: Blockchain 作为 API 接口</h3><p>我们将使用 Python Flask 框架，这是一个轻量 Web 应用框架，它方便将网络请求映射到 Python 函数，现在我们来让 Blockchain 运行在基于 Flask web 上。 我们将创建三个接口：</p>
+<ul>
+<li><code>/transactions/new</code> 创建一个交易并添加到区块</li>
+<li><code>/mine</code> 告诉服务器去挖掘新的区块</li>
+<li><code>/chain</code> 返回整个区块链</li>
+</ul>
+<h4 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h4><p>我们的“Flask 服务器”将扮演区块链网络中的一个节点。我们先添加一些框架代码： <em>blockchain.py</em></p>
+<p>import hashlib<br>import json<br>from textwrap import dedent<br>from time import time<br>from uuid import uuid4</p>
+<p>from flask import Flask</p>
+<p>class Blockchain(object):<br>    …</p>
+<p># Instantiate our Node<br>app = Flask(__name__)</p>
+<p># Generate a globally unique address for this node<br>node_identifier = str(uuid4()).replace(‘-‘, ‘’)</p>
+<p># Instantiate the Blockchain<br>blockchain = Blockchain()</p>
+<p>@app.route(‘/mine’, methods=[‘GET’])<br>def mine():<br>    return “We’ll mine a new Block”</p>
+<p>@app.route(‘/transactions/new’, methods=[‘POST’])<br>def new_transaction():<br>    return “We’ll add a new transaction”</p>
+<p>@app.route(‘/chain’, methods=[‘GET’])<br>def full_chain():<br>    response = {<br>        ‘chain’: blockchain.chain,<br>        ‘length’: len(blockchain.chain),<br>    }<br>    return jsonify(response), 200</p>
+<p>if __name__ == ‘__main__‘:<br>    app.run(host=’0.0.0.0’, port=5000)</p>
+<p>简单的说明一下以上代码：</p>
+<ul>
+<li>第 15 行：实例化节点。阅读更多关于 <a href="http://flask.pocoo.org/docs/0.12/quickstart/#a-minimal-application" target="_blank" rel="noopener">Flask</a> 内容。</li>
+<li>第 18 行：为节点创建一个随机的名称。.</li>
+<li>第 21 行：实例化 Blockchain 类。</li>
+<li>第 24–26 行：创建 /mine 接口，GET 方式请求。</li>
+<li>第 28–30 行：创建 /transactions/new 接口，POST 方式请求，可以给接口发送交易数据。</li>
+<li>第 32–38 行：创建 /chain 接口，返回整个区块链。</li>
+<li>第 40–41 行：服务器运行端口 5000 。</li>
+</ul>
+<hr>
+<h4 id="发送交易"><a href="#发送交易" class="headerlink" title="发送交易"></a>发送交易</h4><p>发送到节点的交易数据结构如下：</p>
+<p>{<br> “sender”: “my address”,<br> “recipient”: “someone else’s address”,<br> “amount”: 5<br>}</p>
+<p>因为我们已经有了添加交易的方法，所以基于接口来添加交易就很简单了。让我们为添加事务写函数: <em>blockchain.py</em></p>
+<p>import hashlib<br>import json<br>from textwrap import dedent<br>from time import time<br>from uuid import uuid4</p>
+<p>from flask import Flask, jsonify, request</p>
+<p>…</p>
+<p>@app.route(‘/transactions/new’, methods=[‘POST’])<br>def new_transaction():<br>    values = request.get_json()</p>
+<pre><code># Check that the required fields are in the POST&apos;ed data
+required = \[&apos;sender&apos;, &apos;recipient&apos;, &apos;amount&apos;\]
+if not all(k in values for k in required):
+    return &apos;Missing values&apos;, 400
+
+# Create a new Transaction
+index = blockchain.new_transaction(values\[&apos;sender&apos;\], values\[&apos;recipient&apos;\], values\[&apos;amount&apos;\])
+
+response = {&apos;message&apos;: f&apos;Transaction will be added to Block {index}&apos;}
+return jsonify(response), 201
+</code></pre><hr>
+<h4 id="挖矿"><a href="#挖矿" class="headerlink" title="挖矿"></a>挖矿</h4><p>挖矿正是神奇所在，它很简单，做了一下三件事：</p>
+<ol>
+<li>计算工作量证明 PoW</li>
+<li>通过新增一个交易授予矿工（自己）一个币</li>
+<li>构造新区块并将其添加到链中</li>
+</ol>
+<p><em>blockchain.py</em></p>
+<p>import hashlib<br>import json</p>
+<p>from time import time<br>from uuid import uuid4</p>
+<p>from flask import Flask, jsonify, request</p>
+<p>…</p>
+<p>@app.route(‘/mine’, methods=[‘GET’])<br>def mine():</p>
+<pre><code># We run the proof of work algorithm to get the next proof...
+last\_block = blockchain.last\_block
+last\_proof = last\_block\[&apos;proof&apos;\]
+proof = blockchain.proof\_of\_work(last_proof)
+
+# We must receive a reward for finding the proof.
+# The sender is &quot;0&quot; to signify that this node has mined a new coin.
+blockchain.new_transaction(
+    sender=&quot;0&quot;,
+    recipient=node_identifier,
+    amount=1,
+)
+
+# Forge the new Block by adding it to the chain
+previous\_hash = blockchain.hash(last\_block)
+block = blockchain.new\_block(proof, previous\_hash)
+
+response = {
+    &apos;message&apos;: &quot;New Block Forged&quot;,
+    &apos;index&apos;: block\[&apos;index&apos;\],
+    &apos;transactions&apos;: block\[&apos;transactions&apos;\],
+    &apos;proof&apos;: block\[&apos;proof&apos;\],
+    &apos;previous\_hash&apos;: block\[&apos;previous\_hash&apos;\],
+}
+return jsonify(response), 200
+</code></pre><p>注意交易的接收者是我们自己的服务器节点，我们做的大部分工作都只是围绕 Blockchain 类方法进行交互。到此，我们的区块链就算完成了，我们来实际运行下。</p>
+<hr>
+<h3 id="Step-3-运行区块链"><a href="#Step-3-运行区块链" class="headerlink" title="Step 3: 运行区块链"></a>Step 3: 运行区块链</h3><p>你可以使用 cURL 或 Postman 去和 API 进行交互 启动 Server：</p>
+<p>$ python blockchain.py<br>* Running on <a href="http://127.0.0.1:5000/" target="_blank" rel="noopener">http://127.0.0.1:5000/</a> (Press CTRL+C to quit)</p>
+<p>让我们通过请求 <a href="http://localhost:5000/mine" target="_blank" rel="noopener">http://localhost:5000/mine</a> （ GET ）来进行挖矿： <img src="https://pythoncaffcdn.phphub.org/uploads/images/201801/10/1/XocCyBrwu5.png" alt="挖矿"> 用 Postman 发起一个 GET 请求. 创建一个交易请求，请求 <a href="http://localhost:5000/transactions/new" target="_blank" rel="noopener">http://localhost:5000/transactions/new</a> （POST）,如图 <img src="https://pythoncaffcdn.phphub.org/uploads/images/201801/10/1/0FhWFFwqhI.png" alt=""> 如果不是使用 Postman，则用一下的 cURL 语句也是一样的：</p>
+<p>$ curl -X POST -H “Content-Type: application/json” -d ‘{<br> “sender”: “d4ee26eee15148ee92c6cd394edd974e”,<br> “recipient”: “someone-other-address”,<br> “amount”: 5<br>}’ “<a href="http://localhost:5000/transactions/new&quot;" target="_blank" rel="noopener">http://localhost:5000/transactions/new&quot;</a></p>
+<p>在挖了两次矿之后，就有 3 个块了，通过请求 <a href="http://localhost:5000/chain" target="_blank" rel="noopener">http://localhost:5000/chain</a> 可以得到所有的块信息</p>
+<p>{<br>  “chain”: [<br>    {<br>      “index”: 1,<br>      “previous_hash”: 1,<br>      “proof”: 100,<br>      “timestamp”: 1506280650.770839,<br>      “transactions”: []<br>    },<br>    {<br>      “index”: 2,<br>      “previous_hash”: “c099bc…bfb7”,<br>      “proof”: 35293,<br>      “timestamp”: 1506280664.717925,<br>      “transactions”: [<br>        {<br>          “amount”: 1,<br>          “recipient”: “8bbcb347e0634905b0cac7955bae152b”,<br>          “sender”: “0”<br>        }<br>      ]<br>    },<br>    {<br>      “index”: 3,<br>      “previous_hash”: “eff91a…10f2”,<br>      “proof”: 35089,<br>      “timestamp”: 1506280666.1086972,<br>      “transactions”: [<br>        {<br>          “amount”: 1,<br>          “recipient”: “8bbcb347e0634905b0cac7955bae152b”,<br>          “sender”: “0”<br>        }<br>      ]<br>    }<br>  ],<br>  “length”: 3<br>}</p>
+<hr>
+<h3 id="Step-4-一致性（共识）"><a href="#Step-4-一致性（共识）" class="headerlink" title="Step 4: 一致性（共识）"></a>Step 4: 一致性（共识）</h3><p>我们已经有了一个基本的区块链可以接受交易和挖矿。但是区块链系统应该是分布式的。既然是分布式的，那么我们究竟拿什么保证所有节点有同样的链呢？这就是一致性问题，我们要想在网络上有多个节点，就必须实现一个一致性的算法</p>
+<h4 id="注册节点"><a href="#注册节点" class="headerlink" title="注册节点"></a>注册节点</h4><p>在实现一致性算法之前，我们需要找到一种方式让一个节点知道它相邻的节点。每个节点都需要保存一份包含网络中其它节点的记录。因此让我们新增几个接口：</p>
+<ol>
+<li><code>/nodes/register</code> 接收 URL 形式的新节点列表.</li>
+<li><code>/nodes/resolve</code> 执行一致性算法，解决任何冲突，确保节点拥有正确的链.</li>
+</ol>
+<p>我们修改下 Blockchain 的 init 函数并提供一个注册节点方法： <em>blockchain.py</em></p>
+<p>…<br>from urllib.parse import urlparse<br>…</p>
+<p>class Blockchain(object):<br>    def __init__(self):<br>        …<br>        self.nodes = set()<br>        …</p>
+<pre><code>def register_node(self, address):
+    &quot;&quot;&quot;
+    Add a new node to the list of nodes
+    :param address: &lt;str&gt; Address of node. Eg. &apos;http://192.168.0.5:5000&apos;
+    :return: None
+    &quot;&quot;&quot;
+
+    parsed_url = urlparse(address)
+    self.nodes.add(parsed_url.netloc)
+</code></pre><p>我们用 set 来储存节点，这是一种避免重复添加节点的简单方法.</p>
+<hr>
+<h4 id="实现共识算法"><a href="#实现共识算法" class="headerlink" title="实现共识算法"></a>实现共识算法</h4><p>就像先前讲的那样，当一个节点与另一个节点有不同的链时，就会产生冲突。 为了解决这个问题，我们将制定最长的有效链条是最权威的规则。换句话说就是：在这个网络里最长的链就是最权威的。 我们将使用这个算法，在网络中的节点之间达成共识。 <em>blockchain.py</em></p>
+<p>…<br>import requests</p>
+<p>class Blockchain(object)<br>    …</p>
+<pre><code>def valid_chain(self, chain):
+    &quot;&quot;&quot;
+    Determine if a given blockchain is valid
+    :param chain: &lt;list&gt; A blockchain
+    :return: &lt;bool&gt; True if valid, False if not
+    &quot;&quot;&quot;
+
+    last_block = chain\[0\]
+    current_index = 1
+
+    while current_index &lt; len(chain):
+        block = chain\[current_index\]
+        print(f&apos;{last_block}&apos;)
+        print(f&apos;{block}&apos;)
+        print(&quot;\\n-----------\\n&quot;)
+        # Check that the hash of the block is correct
+        if block\[&apos;previous\_hash&apos;\] != self.hash(last\_block):
+            return False
+
+        # Check that the Proof of Work is correct
+        if not self.valid\_proof(last\_block\[&apos;proof&apos;\], block\[&apos;proof&apos;\]):
+            return False
+
+        last_block = block
+        current_index += 1
+
+    return True
+
+def resolve_conflicts(self):
+    &quot;&quot;&quot;
+    This is our Consensus Algorithm, it resolves conflicts
+    by replacing our chain with the longest one in the network.
+    :return: &lt;bool&gt; True if our chain was replaced, False if not
+    &quot;&quot;&quot;
+
+    neighbours = self.nodes
+    new_chain = None
+
+    # We&apos;re only looking for chains longer than ours
+    max_length = len(self.chain)
+
+    # Grab and verify the chains from all the nodes in our network
+    for node in neighbours:
+        response = requests.get(f&apos;http://{node}/chain&apos;)
+
+        if response.status_code == 200:
+            length = response.json()\[&apos;length&apos;\]
+            chain = response.json()\[&apos;chain&apos;\]
+
+            # Check if the length is longer and the chain is valid
+            if length &gt; max\_length and self.valid\_chain(chain):
+                max_length = length
+                new_chain = chain
+
+    # Replace our chain if we discovered a new, valid chain longer than ours
+    if new_chain:
+        self.chain = new_chain
+        return True
+
+    return False
+</code></pre><p>第一个方法 <code>valid_chain()</code> 负责检查一个链是否有效，方法是遍历每个块并验证散列和证明。 <code>resolve_conflicts()</code> 是一个遍历我们所有邻居节点的方法，下载它们的链并使用上面的方法验证它们。 如果找到一个长度大于我们的有效链条，我们就取代我们的链条。 我们将两个端点注册到我们的API中，一个用于添加相邻节点，另一个用于解决冲突： <em>blockchain.py</em></p>
+<p>@app.route(‘/nodes/register’, methods=[‘POST’])<br>def register_nodes():<br>    values = request.get_json()</p>
+<pre><code>nodes = values.get(&apos;nodes&apos;)
+if nodes is None:
+    return &quot;Error: Please supply a valid list of nodes&quot;, 400
+
+for node in nodes:
+    blockchain.register_node(node)
+
+response = {
+    &apos;message&apos;: &apos;New nodes have been added&apos;,
+    &apos;total_nodes&apos;: list(blockchain.nodes),
+}
+return jsonify(response), 201
+</code></pre><p>@app.route(‘/nodes/resolve’, methods=[‘GET’])<br>def consensus():<br>    replaced = blockchain.resolve_conflicts()</p>
+<pre><code>if replaced:
+    response = {
+        &apos;message&apos;: &apos;Our chain was replaced&apos;,
+        &apos;new_chain&apos;: blockchain.chain
+    }
+else:
+    response = {
+        &apos;message&apos;: &apos;Our chain is authoritative&apos;,
+        &apos;chain&apos;: blockchain.chain
+    }
+
+return jsonify(response), 200
+</code></pre><hr>
+<p>在这一点上，如果你喜欢，你可以使用一台不同的机器，并在你的网络上启动不同的节点。 或者使用同一台机器上的不同端口启动进程。 我在我的机器上，不同的端口上创建了另一个节点，并将其注册到当前节点。 因此，我有两个节点：<code>http://localhost:5000</code> 和 <code>http://localhost:5001</code>。 注册一个新节点： <img src="https://pythoncaffcdn.phphub.org/uploads/images/201801/10/1/PCmpK0KOtn.png" alt=""> 然后我在节点 2 上挖掘了一些新的块，以确保链条更长。 之后，我在节点1上调用 <code>GET /nodes/resolve</code>，其中链由一致性算法取代： <img src="https://pythoncaffcdn.phphub.org/uploads/images/201801/10/1/dymRRmwPnx.png" alt=""> 这是一个包，去找一些朋友一起，以帮助测试你的区块链。</p>
+<hr>
+<p>我之所以对数字货币入迷，是因为我相信区块链会很快改变我们看待事物的方式，包括经济、政府、档案管理等。在我看来，目前的区块链就像90年代的互联网一样，正处于萌芽期，在不远的将来，区块链必将颠覆许多行业的传统运作方式。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/02/06/learn-blockchains-by-building-one/" data-id="cjqn5ydmx000c0wuul4y7xu48" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/blockchains/">blockchains</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/27/install-anaconda/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          在服务器上装Anaconda给自己挖的坑
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/06/jubi/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">一个不幸夭折的虚拟货币自动套利策略</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blockchains/">Blockchains</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Blockchains/Digital-currency/">Digital currency</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Capriccio/">Capriccio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataAnalysis/">DataAnalysis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Digital-currency/">Digital currency</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ECNU/">ECNU</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataAnalysis/">DataAnalysis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Digital-currency/">Digital currency</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECNU/">ECNU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SeamCarving/">SeamCarving</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blockchains/">blockchains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/DataAnalysis/" style="font-size: 15px;">DataAnalysis</a> <a href="/tags/Digital-currency/" style="font-size: 15px;">Digital currency</a> <a href="/tags/ECNU/" style="font-size: 10px;">ECNU</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/SeamCarving/" style="font-size: 10px;">SeamCarving</a> <a href="/tags/blockchains/" style="font-size: 15px;">blockchains</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/01/08/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/26/seamcarving/">图像接缝剪裁SeamCarving的实现</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/sklearn-predict-typhoon/">使用Sklearn训练模型预测台风路径</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/16/virtual-currency-automatic-trading-data/">关于通过脚本实现虚拟货币量化交易的部分交易数据（17w+条）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/16/mysql-python-week-number/">关于mysql和python跨年周以及当前周的计算问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

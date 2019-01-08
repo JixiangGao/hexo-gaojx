@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>关于mysql和python跨年周以及当前周的计算问题 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在写某个后端时，需要使用python的pymysql从数据库获取上周的数据 然而数据总是不对，bug找了两三个小时才找出来，下面是bug出现的原因，以及关于mysql和python周数的计算方法的总结。    python代码中sql语句的where部分： “WHERE YEARWEEK(date_format(commit_time,’%%Y-%%m-%%d’)) = YEARWEEK(no">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于mysql和python跨年周以及当前周的计算问题">
+<meta property="og:url" content="http://yoursite.com/2018/04/16/mysql-python-week-number/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在写某个后端时，需要使用python的pymysql从数据库获取上周的数据 然而数据总是不对，bug找了两三个小时才找出来，下面是bug出现的原因，以及关于mysql和python周数的计算方法的总结。    python代码中sql语句的where部分： “WHERE YEARWEEK(date_format(commit_time,’%%Y-%%m-%%d’)) = YEARWEEK(no">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/mysql-python-week-nm/yearweek.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/mysql-python-week-nm/wannianli.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/mysql-python-week-nm/wannianli2.png">
+<meta property="og:updated_time" content="2019-01-08T02:40:04.861Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于mysql和python跨年周以及当前周的计算问题">
+<meta name="twitter:description" content="在写某个后端时，需要使用python的pymysql从数据库获取上周的数据 然而数据总是不对，bug找了两三个小时才找出来，下面是bug出现的原因，以及关于mysql和python周数的计算方法的总结。    python代码中sql语句的where部分： “WHERE YEARWEEK(date_format(commit_time,’%%Y-%%m-%%d’)) = YEARWEEK(no">
+<meta name="twitter:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/mysql-python-week-nm/yearweek.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-mysql-python-week-number" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/16/mysql-python-week-number/" class="article-date">
+  <time datetime="2018-04-15T16:45:10.000Z" itemprop="datePublished">2018-04-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/未分类/">未分类</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于mysql和python跨年周以及当前周的计算问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>  在写某个后端时，需要使用python的pymysql从数据库获取<strong>上周</strong>的数据 然而数据总是不对，bug找了两三个小时才找出来，下面是bug出现的原因，以及关于mysql和python周数的计算方法的总结。</p>
+<hr>
+<p>  python代码中sql语句的where部分：</p>
+<p>“WHERE YEARWEEK(date_format(commit_time,’%%Y-%%m-%%d’)) = YEARWEEK(now())- 1”</p>
+<p>语句意思是，把当前时间转换为周数，再把数据库中相应datetime字段也转换为周数，两者之间相差1即可。   当前日期是2018/4/15星期日。 在python中通过datetime.datetime.now().isocalendar()[1] 可以得到当前周数是15； 通过上述sql语句select出上周数据后，在python中选出了mysql返回的数据中时间最靠后的一条数据，对该数据的时间项利用isocalendar()求周数。 然而上述python程序返回的结果也是15（本应该是上周的周数14）。   所以就考虑到很可能是python和mysql计算周数的方式不同，而今天恰巧是周日，有可能是SQL将今天算作了新的一周，即第16周，所以返回的上周数据在python中计算的周数为15。 在mysql中运行语句SELECT  YEARWEEK(now()); 结果j截图如下 <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/mysql-python-week-nm/yearweek.png" alt=""> 即显示的是当前时间为2018年第15周。 如果按照周日算作新的一周，当前应该是第16周才对。   进一步查阅网上的万年历 <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/mysql-python-week-nm/wannianli.png" alt=""> 也显示今天为第十五周。 很让人费解。   那么下面通过查看sql语句查询结果的数据情况发现，数据中最靠后的日期的2018-4-14 23:17:32, 即为前一天。 在mysql中执行SELECT  YEARWEEK(‘2018-4-14 23:17:32’); 结果是201814, 即第14周。   后来经过不断尝试发现，<strong>mysql不仅把周日当做了新的一周，而且是把每年的第一个周日后的那一周当做第一周</strong>。 举个例子 <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/mysql-python-week-nm/wannianli2.png" alt=""> <strong>这是2018年1月的日历，在mysql中，1月7号到1月13号才算做是2018年第1周，1月1号到1月6号还算作是2017年的第53周。</strong> <strong>而在python中，1月1号到1月7号算作是第1周。</strong>   所以在python代码中执行上述语句返回结果是4月8号（星期日）到4月14号（星期六）的数据，而python取了最后一条数据来计算周数，即计算4月14号的周数。 所以会导致在上述bug的产生。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/04/16/mysql-python-week-number/" data-id="cjqn5ydmz000g0wuuuilwounp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/16/virtual-currency-automatic-trading-data/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          关于通过脚本实现虚拟货币量化交易的部分交易数据（17w+条）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/15/analyze-stock/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用pandas和matplotlib分析各类股票数据</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blockchains/">Blockchains</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Blockchains/Digital-currency/">Digital currency</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Capriccio/">Capriccio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataAnalysis/">DataAnalysis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Digital-currency/">Digital currency</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ECNU/">ECNU</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataAnalysis/">DataAnalysis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Digital-currency/">Digital currency</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECNU/">ECNU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SeamCarving/">SeamCarving</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blockchains/">blockchains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/DataAnalysis/" style="font-size: 15px;">DataAnalysis</a> <a href="/tags/Digital-currency/" style="font-size: 15px;">Digital currency</a> <a href="/tags/ECNU/" style="font-size: 10px;">ECNU</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/SeamCarving/" style="font-size: 10px;">SeamCarving</a> <a href="/tags/blockchains/" style="font-size: 15px;">blockchains</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/01/08/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/26/seamcarving/">图像接缝剪裁SeamCarving的实现</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/sklearn-predict-typhoon/">使用Sklearn训练模型预测台风路径</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/16/virtual-currency-automatic-trading-data/">关于通过脚本实现虚拟货币量化交易的部分交易数据（17w+条）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/16/mysql-python-week-number/">关于mysql和python跨年周以及当前周的计算问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

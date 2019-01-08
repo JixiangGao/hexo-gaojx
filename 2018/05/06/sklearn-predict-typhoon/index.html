@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>使用Sklearn训练模型预测台风路径 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="运用Sklearn的多种线性回归策略提高台风路径预测的准确性  内容 使用Sklearn中线性回归、岭回归、ElasticNet回归以及Lasso回归模型对台风路径数据进行训练、预测，进行误差分析，并比较各个模型的优劣。 比较训练数据量对结果准确性的影响。 找出预测台风路径最优的回归模型，并使用模型对目标数据进行预测。  数据描述 typhoon.dat (500条训练数据集) typhoon">
+<meta name="keywords" content="DataAnalysis,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Sklearn训练模型预测台风路径">
+<meta property="og:url" content="http://yoursite.com/2018/05/06/sklearn-predict-typhoon/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="运用Sklearn的多种线性回归策略提高台风路径预测的准确性  内容 使用Sklearn中线性回归、岭回归、ElasticNet回归以及Lasso回归模型对台风路径数据进行训练、预测，进行误差分析，并比较各个模型的优劣。 比较训练数据量对结果准确性的影响。 找出预测台风路径最优的回归模型，并使用模型对目标数据进行预测。  数据描述 typhoon.dat (500条训练数据集) typhoon">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/1.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/2.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/3.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/4.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/5.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/6.png">
+<meta property="og:updated_time" content="2019-01-08T02:40:04.856Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Sklearn训练模型预测台风路径">
+<meta name="twitter:description" content="运用Sklearn的多种线性回归策略提高台风路径预测的准确性  内容 使用Sklearn中线性回归、岭回归、ElasticNet回归以及Lasso回归模型对台风路径数据进行训练、预测，进行误差分析，并比较各个模型的优劣。 比较训练数据量对结果准确性的影响。 找出预测台风路径最优的回归模型，并使用模型对目标数据进行预测。  数据描述 typhoon.dat (500条训练数据集) typhoon">
+<meta name="twitter:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-sklearn-predict-typhoon" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/06/sklearn-predict-typhoon/" class="article-date">
+  <time datetime="2018-05-06T09:04:26.000Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/DataAnalysis/">DataAnalysis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用Sklearn训练模型预测台风路径
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>  运用Sklearn的多种线性回归策略提高台风路径预测的准确性</p>
+<hr>
+<h3 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h3><ul>
+<li>使用Sklearn中线性回归、岭回归、ElasticNet回归以及Lasso回归模型对台风路径数据进行训练、预测，进行误差分析，并比较各个模型的优劣。</li>
+<li>比较训练数据量对结果准确性的影响。</li>
+<li>找出预测台风路径最优的回归模型，并使用模型对目标数据进行预测。</li>
+</ul>
+<h3 id="数据描述"><a href="#数据描述" class="headerlink" title="数据描述"></a>数据描述</h3><ul>
+<li><a href="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/typhoon.dat" target="_blank" rel="noopener">typhoon.dat (500条训练数据集)</a></li>
+<li><a href="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/typhoon200Test.dat" target="_blank" rel="noopener">typhoon200Test.dat (200条测试数据集)</a></li>
+</ul>
+<p>台风训练数据typhoon.dat, 共计500条，共18列，前16列为预报因子，最后2列分别是经纬度。 每行数据是间隔12个小时采集到的台风预报因子，数据的任务是预测台风的路径，即预测台风的经纬度，最后两列的值。 LON .V1： 起报时刻经度 lon+00 LON .V2： 起报时刻前12小时纬向移速 vlat-12 LON .V3： 起报时刻前24小时纬向移速 vlat-24（可能是经向） LON .V4： 起报时刻前24 小时所在经度 lon-24 LON .V5： 起报时刻前12 小时至前24小时纬向移速 vlat-24 LON .V6： 起报时刻与前12小时的经度差 (lon+00)-(lon-12) LON .V7： 起报时刻前6 小时所在经度 lon-06 LON .V8： 起报时刻前18 小时所在经度 lon-18 Lat.v9: 起报时刻纬度 lat+00 Lat.v10: 起报时刻前12小时经向移速 vlon-12 Lat.v11: 起报时刻前24小时经向移速的平方 (vlon-24)^2 Lat.v12: 起报时刻前12 小时所在纬度 lat-12 Lat.v13: 起报时刻与前24小时的经度差 (lon+00)-(lon-24) Lat.v14: 起报时刻前6 小时所在纬度 lat-06 Lat.v15: 起报时刻前18 小时所在纬度 lat-18 Lat.v16: 起报时刻前6 小时地面附近最大风速 wind-06 LON . t： 要预报的24小时后的经度（预报量） lon+24 Lat.t: 要预报的24小时后的纬度（预报量） lat+24 台风测试数据为 typhoon200Test.dat，共计200条，每条有16列预报因子，与训练数据的前16列数据格式顺序相同，但是没有最后的两列经纬度数据。 测试的任务就是对这200条台风数据预测每条记录的经度和纬度值。  </p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>（分析过程代码见最后）</p>
+<h4 id="首先分析一下各个回归模型训练数据量对预测结果准确性的影响。"><a href="#首先分析一下各个回归模型训练数据量对预测结果准确性的影响。" class="headerlink" title="首先分析一下各个回归模型训练数据量对预测结果准确性的影响。"></a>首先分析一下各个回归模型训练数据量对预测结果准确性的影响。</h4><p><img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/1.png" alt=""> 上图是训练样本量对各个模型预测结果与真实结果的距离误差的影响。其中，横坐标是训练数据集的大小，纵坐标是真实的经纬度与预测的经纬度之间的距离。 由图可见，随着训练数据集中数据数量的增多，预测误差是逐渐减小的。   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/2.png" alt=""> 上图是训练样本量对各个模型预测结果与真实结果的经纬度误差的影响。其中，横坐标是训练数据集的大小，纵坐标是真实的经纬度与预测的经纬度之间的误差大小。 由图亦可看出，随着训练数据集中数据数量的增多，预测误差是逐渐减小的。并且各个模型预测纬度的误差要小于对经度进行预测的误差。  </p>
+<h4 id="使用50到300个预测样本分析不同的回归模型对台风路径预测误差的影响。"><a href="#使用50到300个预测样本分析不同的回归模型对台风路径预测误差的影响。" class="headerlink" title="使用50到300个预测样本分析不同的回归模型对台风路径预测误差的影响。"></a>使用50到300个预测样本分析不同的回归模型对台风路径预测误差的影响。</h4><p><img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/3.png" alt=""> 上图是截取了训练样本数据量在50到300时预测的距离误差随训练数据量的变化趋势。 由图可见，在训练样本数据量稍大的情况下，岭回归与线性回归对台风路径的预测的误差较小。   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/4.png" alt=""> 上图是截取了训练样本数据量在50到300时预测的经纬度误差随训练数据量的变化趋势。 由图可见，总体来说，各个回归模型对台风路径纬度的预测误差要小于对经度的预测误差。 在训练样本数据量稍大的情况下，岭回归对台风路径经度的预测的误差相对较小，线性回归对台风路径纬度的预测的误差相对较小。  </p>
+<hr>
+<p>由上述分析可知，在此数量级的训练样本下，线性回归对纬度的预测要较为准确，而岭回归对经度的预测较为准确。所以，可以对台风路径的经纬度分别使用这两种回归模型进行预测。 <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/5.png" alt=""> 上图是训练样本量对预测经纬度与真实经纬度之间相关系数的影响。由图可见，在数据量为150到300之间时，岭回归对经度的预测结果与真实结果相关性最强，线性回归对纬度的预测结果与真实结果相关性最强。 所以在此实验中，可以使用岭回归来预测台风路径的经度值，使用线性回归来预测台风路径的纬度值。  </p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p><img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/6.png" alt=""> 上图中红线是使用岭回归来预测台风路径的经度值，使用线性回归来预测台风路径的纬度值，进而得到的距离误差。 可见，采用此方法预测在数据量大于150时要比其他方法准确。 所以，本实验最终使用岭回归来预测台风路径的经度值，使用线性回归来预测台风路径的纬度值，对200条测试数据进行预测。  </p>
+<h4 id="预测结果"><a href="#预测结果" class="headerlink" title="预测结果"></a>预测结果</h4><p><a href="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/Sklearn-typhoon/typhoon200Results.dat" target="_blank" rel="noopener">typhoon200Results.dat</a>  </p>
+<h4 id="预测代码"><a href="#预测代码" class="headerlink" title="预测代码"></a>预测代码</h4><p>from __future__ import division<br>import os, sys<br>import numpy as np<br># from numpy import <em><br>from sklearn import linear_model<br>from math import </em></p>
+<p>import pandas as pd<br>from pandas import DataFrame<br>from pandas_datareader import data<br>import pandas_datareader as pdr</p>
+<p>%matplotlib inline<br>import matplotlib.pyplot as plt<br>import matplotlib as mpl</p>
+<p>mpl.rcParams[‘font.sans-serif’] = [‘SimHei’]<br>mpl.rcParams[‘font.serif’] = [‘SimHei’]<br>import seaborn as sns<br>sns.set_style(“darkgrid”,{“font.sans-serif”:[‘simhei’, ‘Arial’]})</p>
+<p>train_num = 50</p>
+<p>#加载数据<br>def loadDataSet(fileName): #general function to parse tab -delimited floats<br>    numFeat = len(open(fileName).readline().split(‘\t’)) - 2 #get number of fields<br>    dataArr = []<br>    lonArr = []<br>    latArr = []<br>    fr = open(fileName)<br>    for line in fr.readlines():<br>        lineArr =[]<br>        lineArr.append(1.0) # 增加这一列是为了进行线性回归，存放常量x0<br>        curLine = line.strip().split(‘\t’)<br>        for i in range(numFeat):<br>            lineArr.append(float(curLine[i]))<br>        dataArr.append(lineArr)<br>        lonArr.append(float(curLine[-2])) # 倒数第二项是lon经度<br>        latArr.append(float(curLine[-1])) # 最后一项是lat纬度<br>    return dataArr,lonArr, latArr</p>
+<p># 计算误差<br>def absError(yArr,yHatArr): #yArr and yHatArr both need to be arrays<br>    return abs(yArr-yHatArr).sum() / len(yArr)</p>
+<p># 加载数据，分隔为train和test<br>dataArr,lonArr,latArr= loadDataSet(‘typhoon.dat’)</p>
+<p>#加载测试数据<br>def loadTestDataSet(fileName): #general function to parse tab -delimited floats<br>    numFeat = len(open(fileName).readline().split(‘\t’)) #get number of fields<br>    dataArr = []<br>    fr = open(fileName)<br>    for line in fr.readlines():<br>        lineArr =[]<br>        lineArr.append(1.0) # 增加这一列是为了进行线性回归，存放常量x0<br>        curLine = line.strip().split(‘\t’)<br>        for i in range(numFeat):<br>            lineArr.append(float(curLine[i]))<br>        dataArr.append(lineArr)<br>    return dataArr</p>
+<p>trainX=dataArr[0:500]; lonTrainY=lonArr[0:500]; latTrainY=latArr[0:500]<br># testX=dataArr[300:]; lonTestY=lonArr[300:]; latTestY=latArr[300:]<br>testX=loadTestDataSet(‘typhoon200Test.dat’)</p>
+<p># 构建模型<br>clf = linear_model.LinearRegression() # 线性回归<br>clf1 = linear_model.Ridge (alpha = 0.8) # 岭回归<br># clf2 = linear_model.ElasticNet(alpha = 1.0) # ElasticNet线性<br># clf3 = linear_model.Lasso()</p>
+<p>clf.fit (trainX, lonTrainY) # 训练经度模型<br>lonyHat = clf.predict(testX) # 使用经度模型去预测经度<br>clf.fit (trainX, latTrainY) # 训练纬度模型<br>latyHat = clf.predict(testX) # 使用纬度模型去预测纬度<br># # 经度误差<br># absErrorLon = absError(lonTestY,lonyHat)<br># # 纬度误差<br># absErrorLat = absError(latTestY,latyHat)<br># absErrorLen = 110 <em> sqrt(absErrorLon\</em>*2 + absErrorLat**2)</p>
+<p>clf1.fit (trainX, lonTrainY) # 训练经度模型<br>lonyHat1 = clf1.predict(testX) # 使用经度模型去预测经度<br>clf1.fit (trainX, latTrainY) # 训练纬度模型<br>latyHat1 = clf1.predict(testX) # 使用纬度模型去预测纬度</p>
+<p># print(lonyHat1)<br># print(latyHat)</p>
+<p>data = []</p>
+<p>for i in range(0, 200):<br>    data1 = []<br>    data1.append(lonyHat1[i])<br>    data1.append(latyHat[i])<br>    data.append(data1)</p>
+<p>df = DataFrame(data)<br>df.to_csv(‘typhoon200Results.dat’, sep=’\t’, header=False, index=False)</p>
+<p># # 经度误差<br># absErrorLon1 = absError(lonTestY,lonyHat1)<br># # 纬度误差<br># absErrorLat1 = absError(latTestY,latyHat1)<br># absErrorLen1 = 110 <em> sqrt(absErrorLon1\</em>*2 + absErrorLat1**2)</p>
+<p># absErrorLen3333 = 110 <em> sqrt(absErrorLon1\</em>*2 + absErrorLat**2)</p>
+<p># print( absErrorLen, absErrorLen1, absErrorLen3333)</p>
+<h2 id="分析过程代码"><a href="#分析过程代码" class="headerlink" title="分析过程代码"></a>分析过程代码</h2><p>from __future__ import division<br>import os, sys<br>import numpy as np<br># from numpy import <em><br>from sklearn import linear_model<br>from math import </em></p>
+<p>import pandas as pd<br>from pandas import DataFrame<br>from pandas_datareader import data<br>import pandas_datareader as pdr</p>
+<p>%matplotlib inline<br>import matplotlib.pyplot as plt<br>import matplotlib as mpl</p>
+<p>mpl.rcParams[‘font.sans-serif’] = [‘SimHei’]<br>mpl.rcParams[‘font.serif’] = [‘SimHei’]<br>import seaborn as sns<br>sns.set_style(“darkgrid”,{“font.sans-serif”:[‘simhei’, ‘Arial’]})</p>
+<p>train_num = 50</p>
+<p>#加载数据<br>def loadDataSet(fileName): #general function to parse tab -delimited floats<br>    numFeat = len(open(fileName).readline().split(‘\t’)) - 2 #get number of fields<br>    dataArr = []<br>    lonArr = []<br>    latArr = []<br>    fr = open(fileName)<br>    for line in fr.readlines():<br>        lineArr =[]<br>        lineArr.append(1.0) # 增加这一列是为了进行线性回归，存放常量x0<br>        curLine = line.strip().split(‘\t’)<br>        for i in range(numFeat):<br>            lineArr.append(float(curLine[i]))<br>        dataArr.append(lineArr)<br>        lonArr.append(float(curLine[-2])) # 倒数第二项是lon经度<br>        latArr.append(float(curLine[-1])) # 最后一项是lat纬度<br>    return dataArr,lonArr, latArr</p>
+<p># 计算误差<br>def absError(yArr,yHatArr): #yArr and yHatArr both need to be arrays<br>    return abs(yArr-yHatArr).sum() / len(yArr)</p>
+<p># 加载数据，分隔为train和test<br>dataArr,lonArr,latArr= loadDataSet(‘typhoon.dat’)</p>
+<p>data_all = {‘data size’:[], ‘线性回归’:[], ‘岭回归’:[], ‘ElasticNet回归’:[], ‘Lasso回归’:[]}<br>data_LonLat_Err = {‘data size’:[], ‘线性回归Lon’:[], ‘岭回归Lon’:[], ‘ElasticNet回归Lon’:[],<br>                   ‘Lasso回归Lon’:[],<br>                  ‘线性回归Lat’:[], ‘岭回归Lat’:[], ‘ElasticNet回归Lat’:[],’Lasso回归Lat’:[]}<br>data_LonLat_corr = {‘data size’:[], ‘线性回归Lon’:[], ‘岭回归Lon’:[], ‘ElasticNet回归Lon’:[],<br>                   ‘Lasso回归Lon’:[],<br>                  ‘线性回归Lat’:[], ‘岭回归Lat’:[], ‘ElasticNet回归Lat’:[],’Lasso回归Lat’:[]}<br>for train_num in range(50, 300, 1):<br>    trainX=dataArr[0:train_num]; lonTrainY=lonArr[0:train_num]; latTrainY=latArr[0:train_num]<br>    testX=dataArr[300:]; lonTestY=lonArr[300:]; latTestY=latArr[300:]</p>
+<pre><code>data\_all\[&apos;data size&apos;\].append(train\_num)
+data\_LonLat\_Err\[&apos;data size&apos;\].append(train_num)
+data\_LonLat\_corr\[&apos;data size&apos;\].append(train_num)
+
+# 构建模型
+clf = linear_model.LinearRegression() # 线性回归
+clf1 = linear_model.Ridge (alpha = 0.8) # 岭回归
+clf2 = linear_model.ElasticNet(alpha = 1.0) # ElasticNet线性
+clf3 = linear_model.Lasso()
+
+
+clf.fit (trainX, lonTrainY) # 训练经度模型
+lonyHat = clf.predict(testX) # 使用经度模型去预测经度
+clf.fit (trainX, latTrainY) # 训练纬度模型
+latyHat = clf.predict(testX) # 使用纬度模型去预测纬度
+# 经度误差
+absErrorLon = absError(lonTestY,lonyHat)
+# 纬度误差
+absErrorLat = absError(latTestY,latyHat)
+absErrorLen = 110 * sqrt(absErrorLon\*\*2 + absErrorLat\*\*2)
+
+data_all\[&apos;线性回归&apos;\].append(absErrorLen)
+
+clf1.fit (trainX, lonTrainY) # 训练经度模型
+lonyHat1 = clf1.predict(testX) # 使用经度模型去预测经度
+clf1.fit (trainX, latTrainY) # 训练纬度模型
+latyHat1 = clf1.predict(testX) # 使用纬度模型去预测纬度
+# 经度误差
+absErrorLon1 = absError(lonTestY,lonyHat1)
+# 纬度误差
+absErrorLat1 = absError(latTestY,latyHat1)
+absErrorLen1 = 110 * sqrt(absErrorLon1\*\*2 + absErrorLat1\*\*2)
+
+data_all\[&apos;岭回归&apos;\].append(absErrorLen1)
+
+
+clf2.fit (trainX, lonTrainY) # 训练经度模型
+lonyHat2 = clf2.predict(testX) # 使用经度模型去预测经度
+clf2.fit (trainX, latTrainY) # 训练纬度模型
+latyHat2 = clf2.predict(testX) # 使用纬度模型去预测纬度
+# 经度误差
+absErrorLon2 = absError(lonTestY,lonyHat2)
+# 纬度误差
+absErrorLat2 = absError(latTestY,latyHat2)
+absErrorLen2 = 110 * sqrt(absErrorLon2\*\*2 + absErrorLat2\*\*2)
+
+data_all\[&apos;ElasticNet回归&apos;\].append(absErrorLen2)
+
+
+clf3.fit (trainX, lonTrainY) # 训练经度模型
+lonyHat3= clf3.predict(testX) # 使用经度模型去预测经度
+clf3.fit (trainX, latTrainY) # 训练纬度模型
+latyHat3 = clf3.predict(testX) # 使用纬度模型去预测纬度
+# 经度误差
+absErrorLon3 = absError(lonTestY,lonyHat3)
+# 纬度误差
+absErrorLat3 = absError(latTestY,latyHat3)
+absErrorLen3 = 110 * sqrt(absErrorLon3\*\*2 + absErrorLat3\*\*2)
+
+data_all\[&apos;Lasso回归&apos;\].append(absErrorLen3)
+
+data\_LonLat\_Err\[&apos;线性回归Lon&apos;\].append(absErrorLon)
+data\_LonLat\_Err\[&apos;岭回归Lon&apos;\].append(absErrorLon1)
+data\_LonLat\_Err\[&apos;ElasticNet回归Lon&apos;\].append(absErrorLon2)
+data\_LonLat\_Err\[&apos;Lasso回归Lon&apos;\].append(absErrorLon3)
+
+data\_LonLat\_Err\[&apos;线性回归Lat&apos;\].append(absErrorLat)
+data\_LonLat\_Err\[&apos;岭回归Lat&apos;\].append(absErrorLat1)
+data\_LonLat\_Err\[&apos;ElasticNet回归Lat&apos;\].append(absErrorLat2)
+data\_LonLat\_Err\[&apos;Lasso回归Lat&apos;\].append(absErrorLat3)
+
+data\_LonLat\_corr\[&apos;线性回归Lon&apos;\].append(np.corrcoef(lonyHat, lonArr\[300:\])\[0\]\[1\])
+data\_LonLat\_corr\[&apos;岭回归Lon&apos;\].append(np.corrcoef(lonyHat1, lonArr\[300:\])\[0\]\[1\])
+data\_LonLat\_corr\[&apos;ElasticNet回归Lon&apos;\].append(np.corrcoef(lonyHat2, lonArr\[300:\])\[0\]\[1\])
+data\_LonLat\_corr\[&apos;Lasso回归Lon&apos;\].append(np.corrcoef(lonyHat3, lonArr\[300:\])\[0\]\[1\])
+
+data\_LonLat\_corr\[&apos;线性回归Lat&apos;\].append(np.corrcoef(latyHat, latArr\[300:\])\[0\]\[1\])
+data\_LonLat\_corr\[&apos;岭回归Lat&apos;\].append(np.corrcoef(latyHat1, latArr\[300:\])\[0\]\[1\])
+data\_LonLat\_corr\[&apos;ElasticNet回归Lat&apos;\].append(np.corrcoef(latyHat2, latArr\[300:\])\[0\]\[1\])
+data\_LonLat\_corr\[&apos;Lasso回归Lat&apos;\].append(np.corrcoef(latyHat3, latArr\[300:\])\[0\]\[1\])
+
+
+
+#计算距离公式： 110*sqrt(lon^2+lat^2)
+</code></pre><p>#     print(absErrorLen,absErrorLen1,absErrorLen2 )</p>
+<pre><code># 计算经度预测值与真实值的相关系数
+# print(np.corrcoef(lonyHat, lonArr\[400:\])\[0\]\[1\])
+# 计算纬度预测值与真实值的相关系数
+# print(np.corrcoef(latyHat, latArr\[400:\])\[0\]\[1\])
+</code></pre><p># print(data_all)<br>data_all = DataFrame(data_all)<br>data_all.set_index([‘data size’], inplace=True)<br>data_all.plot(kind=’line’, figsize=(12,8),<br>             title=’训练样本量对预测距离误差的影响’)<br>plt.legend(bbox_to_anchor=(1.0, 1))</p>
+<p>data_LonLat_Err = DataFrame(data_LonLat_Err)<br>data_LonLat_Err.set_index([‘data size’], inplace=True)<br>data_LonLat_Err.plot(kind=’line’, figsize=(12,8),<br>             title=’训练样本量对预测经纬度误差的影响’)<br>plt.legend(bbox_to_anchor=(1.0, 1))</p>
+<p>data_LonLat_corr = DataFrame(data_LonLat_corr)<br>data_LonLat_corr.set_index([‘data size’], inplace=True)<br>data_LonLat_corr.plot(kind=’line’, figsize=(12,8),<br>             title=’训练样本量对预测经纬度与真实经纬度之间相关系数的影响’)<br>plt.legend(bbox_to_anchor=(1.0, 1))</p>
+<p>data_all = {‘data size’:[], ‘线性回归’:[], ‘岭回归’:[], ‘ElasticNet回归’:[], ‘Lasso回归’:[], ‘线性-岭回归’:[]}<br>for train_num in range(50, 300, 1):<br>    trainX=dataArr[0:train_num]; lonTrainY=lonArr[0:train_num]; latTrainY=latArr[0:train_num]<br>    testX=dataArr[300:]; lonTestY=lonArr[300:]; latTestY=latArr[300:]</p>
+<pre><code>data\_all\[&apos;data size&apos;\].append(train\_num)
+</code></pre><p>#     data_LonLat_Err[‘data size’].append(train_num)<br>#     data_LonLat_corr[‘data size’].append(train_num)</p>
+<pre><code># 构建模型
+clf = linear_model.LinearRegression() # 线性回归
+clf1 = linear_model.Ridge (alpha = 0.8) # 岭回归
+clf2 = linear_model.ElasticNet(alpha = 1.0) # ElasticNet线性
+clf3 = linear_model.Lasso()
+
+
+clf.fit (trainX, lonTrainY) # 训练经度模型
+lonyHat = clf.predict(testX) # 使用经度模型去预测经度
+clf.fit (trainX, latTrainY) # 训练纬度模型
+latyHat = clf.predict(testX) # 使用纬度模型去预测纬度
+# 经度误差
+absErrorLon = absError(lonTestY,lonyHat)
+# 纬度误差
+absErrorLat = absError(latTestY,latyHat)
+absErrorLen = 110 * sqrt(absErrorLon\*\*2 + absErrorLat\*\*2)
+
+data_all\[&apos;线性回归&apos;\].append(absErrorLen)
+
+clf1.fit (trainX, lonTrainY) # 训练经度模型
+lonyHat1 = clf1.predict(testX) # 使用经度模型去预测经度
+clf1.fit (trainX, latTrainY) # 训练纬度模型
+latyHat1 = clf1.predict(testX) # 使用纬度模型去预测纬度
+# 经度误差
+absErrorLon1 = absError(lonTestY,lonyHat1)
+# 纬度误差
+absErrorLat1 = absError(latTestY,latyHat1)
+absErrorLen1 = 110 * sqrt(absErrorLon1\*\*2 + absErrorLat1\*\*2)
+
+data_all\[&apos;岭回归&apos;\].append(absErrorLen1)
+
+
+
+clf2.fit (trainX, lonTrainY) # 训练经度模型
+lonyHat2 = clf2.predict(testX) # 使用经度模型去预测经度
+clf2.fit (trainX, latTrainY) # 训练纬度模型
+latyHat2 = clf2.predict(testX) # 使用纬度模型去预测纬度
+# 经度误差
+absErrorLon2 = absError(lonTestY,lonyHat2)
+# 纬度误差
+absErrorLat2 = absError(latTestY,latyHat2)
+absErrorLen2 = 110 * sqrt(absErrorLon2\*\*2 + absErrorLat2\*\*2)
+
+data_all\[&apos;ElasticNet回归&apos;\].append(absErrorLen2)
+
+
+clf3.fit (trainX, lonTrainY) # 训练经度模型
+lonyHat3= clf3.predict(testX) # 使用经度模型去预测经度
+clf3.fit (trainX, latTrainY) # 训练纬度模型
+latyHat3 = clf3.predict(testX) # 使用纬度模型去预测纬度
+# 经度误差
+absErrorLon3 = absError(lonTestY,lonyHat3)
+# 纬度误差
+absErrorLat3 = absError(latTestY,latyHat3)
+absErrorLen3 = 110 * sqrt(absErrorLon3\*\*2 + absErrorLat3\*\*2)
+
+data_all\[&apos;Lasso回归&apos;\].append(absErrorLen3)
+
+
+absErrorLen333 = 110 * sqrt(absErrorLon1\*\*2 + absErrorLat\*\*2)
+
+data_all\[&apos;线性-岭回归&apos;\].append(absErrorLen333)
+</code></pre><p>data_all = DataFrame(data_all)<br>data_all.set_index([‘data size’], inplace=True)<br>data_all.plot(kind=’line’, figsize=(12,8),<br>             title=’训练样本量对预测距离误差的影响’)<br>plt.legend(bbox_to_anchor=(1.0, 1))</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/06/sklearn-predict-typhoon/" data-id="cjqn5ydn3000l0wuuwinimtgd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DataAnalysis/">DataAnalysis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/26/seamcarving/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          图像接缝剪裁SeamCarving的实现
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/16/virtual-currency-automatic-trading-data/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">关于通过脚本实现虚拟货币量化交易的部分交易数据（17w+条）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blockchains/">Blockchains</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Blockchains/Digital-currency/">Digital currency</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Capriccio/">Capriccio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataAnalysis/">DataAnalysis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Digital-currency/">Digital currency</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ECNU/">ECNU</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataAnalysis/">DataAnalysis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Digital-currency/">Digital currency</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECNU/">ECNU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SeamCarving/">SeamCarving</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blockchains/">blockchains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/DataAnalysis/" style="font-size: 15px;">DataAnalysis</a> <a href="/tags/Digital-currency/" style="font-size: 15px;">Digital currency</a> <a href="/tags/ECNU/" style="font-size: 10px;">ECNU</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/SeamCarving/" style="font-size: 10px;">SeamCarving</a> <a href="/tags/blockchains/" style="font-size: 15px;">blockchains</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/01/08/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/26/seamcarving/">图像接缝剪裁SeamCarving的实现</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/sklearn-predict-typhoon/">使用Sklearn训练模型预测台风路径</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/16/virtual-currency-automatic-trading-data/">关于通过脚本实现虚拟货币量化交易的部分交易数据（17w+条）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/16/mysql-python-week-number/">关于mysql和python跨年周以及当前周的计算问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>一个不幸夭折的虚拟货币自动套利策略 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="2017年无疑是虚拟货币的元年，整体市值已经突破了四万亿人民币。上涨几百倍几千倍的山寨币比比皆是，即使这种行情，能拿到这么多倍数的人少之又少，而且也还有很多人是亏损的，毕竟虚拟货币的波动太大，分分钟让人怀疑人生。 所以虚拟货币是一种收益高风险也高的投资。除了投资和投机之外，在虚拟货币的市场也产生了许多其他获利的方式，比如搬砖、量化交易等。这里介绍一种在聚币网用程序自动交易的策略。 聚币网（jubi">
+<meta name="keywords" content="Digital currency">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个不幸夭折的虚拟货币自动套利策略">
+<meta property="og:url" content="http://yoursite.com/2018/02/06/jubi/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="2017年无疑是虚拟货币的元年，整体市值已经突破了四万亿人民币。上涨几百倍几千倍的山寨币比比皆是，即使这种行情，能拿到这么多倍数的人少之又少，而且也还有很多人是亏损的，毕竟虚拟货币的波动太大，分分钟让人怀疑人生。 所以虚拟货币是一种收益高风险也高的投资。除了投资和投机之外，在虚拟货币的市场也产生了许多其他获利的方式，比如搬砖、量化交易等。这里介绍一种在聚币网用程序自动交易的策略。 聚币网（jubi">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://gaojx-1253732420.cossh.myqcloud.com/%E7%B4%A0%E6%9D%90/TIM%E6%88%AA%E5%9B%BE20180205235240.jpg">
+<meta property="og:image" content="http://gaojx-1253732420.cossh.myqcloud.com/%E7%B4%A0%E6%9D%90/TIM%E6%88%AA%E5%9B%BE20180206013821.jpg">
+<meta property="og:image" content="http://gaojx-1253732420.cossh.myqcloud.com/%E7%B4%A0%E6%9D%90/TIM%E6%88%AA%E5%9B%BE20180206011022.jpg">
+<meta property="og:updated_time" content="2019-01-08T02:40:04.849Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一个不幸夭折的虚拟货币自动套利策略">
+<meta name="twitter:description" content="2017年无疑是虚拟货币的元年，整体市值已经突破了四万亿人民币。上涨几百倍几千倍的山寨币比比皆是，即使这种行情，能拿到这么多倍数的人少之又少，而且也还有很多人是亏损的，毕竟虚拟货币的波动太大，分分钟让人怀疑人生。 所以虚拟货币是一种收益高风险也高的投资。除了投资和投机之外，在虚拟货币的市场也产生了许多其他获利的方式，比如搬砖、量化交易等。这里介绍一种在聚币网用程序自动交易的策略。 聚币网（jubi">
+<meta name="twitter:image" content="http://gaojx-1253732420.cossh.myqcloud.com/%E7%B4%A0%E6%9D%90/TIM%E6%88%AA%E5%9B%BE20180205235240.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-jubi" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/06/jubi/" class="article-date">
+  <time datetime="2018-02-05T17:25:54.000Z" itemprop="datePublished">2018-02-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Digital-currency/">Digital currency</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      一个不幸夭折的虚拟货币自动套利策略
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>2017年无疑是虚拟货币的元年，整体市值已经突破了四万亿人民币。上涨几百倍几千倍的山寨币比比皆是，即使这种行情，能拿到这么多倍数的人少之又少，而且也还有很多人是亏损的，毕竟虚拟货币的波动太大，分分钟让人怀疑人生。 所以虚拟货币是一种收益高风险也高的投资。除了投资和投机之外，在虚拟货币的市场也产生了许多其他获利的方式，比如<strong>搬砖、量化交易</strong>等。这里介绍一种在聚币网用程序<em>自动交易</em>的策略。 <em>聚币网（<a href="http://jubi.com" target="_blank" rel="noopener">jubi.com</a>）</em>，在2017年九月之前，在国内币圈号称“聚币小赌场”。每天零点整，平台上都会有几个山寨币被暴力拉升，<strong>少则几十点，多则数倍</strong>。所以每天都有人埋伏这些各种山寨币，碰运气，小赌场的名号由此而来。然而，不幸的是九月份ZF开始管制国内的虚拟货币交易，关停所有交易所，小赌场也未能幸免，所以这个策略也随之夭折了。 小赌场每晚暴力拉升的时间非常短，几秒几十秒就能完成，庄家出货也非常快。如果每晚守在电脑前，看见有极速拉升的币种立即买入然后出货，八成会被套。。。 既然无法手动交易，那么不妨设计一个策略让程序去自动买卖。这个策略分为三个部分，检测被拉升的币种、挂单买入、出货。</p>
+<h4 id="一、检测被拉升的币种"><a href="#一、检测被拉升的币种" class="headerlink" title="一、检测被拉升的币种"></a>一、检测被拉升的币种</h4><p>首先介绍一下聚币的<a href="https://www.jubi.com/help/api.html" target="_blank" rel="noopener">API</a>，我们可以通过调用API来获取行情、查询账户信息以及进行交易等。 [caption id=”” align=”aligncenter” width=”647”]<img src="http://gaojx-1253732420.cossh.myqcloud.com/%E7%B4%A0%E6%9D%90/TIM%E6%88%AA%E5%9B%BE20180205235240.jpg" alt=""> 图 聚币API介绍[/caption] 这里使用python来调用API以实现各种功能，后面附详细代码。 聚币网涨跌幅参照每晚零点的价格计算的，所以可以通过每晚零点的实时涨跌幅来检测是否有被拉升的币种。 判断条件是：</p>
+<ul>
+<li>涨幅最高的币在5%-10%之间</li>
+<li>有多于10个币种涨跌幅为0</li>
+<li>当前时间在0:00 - 0:01之间</li>
+</ul>
+<p>满足上述条件，基本可以认为有狗庄在拉升当前涨幅最高的币种。 当然，在具体操作的时候并没有想象的那么容易，就比如聚币的API有一些坑：</p>
+<ul>
+<li>使用公钥、私钥和签名进行认证时，需要按照一定的顺序（signature,nonce,key，nonce参数一定要在key前面）才能成功通过验证，这点在官方文档中并未提及。最后是给写过类似博客的一位dalao发邮件询问得知的，在此感谢。</li>
+<li>还一点让人百思不得其解，聚币并没有提供获取当前涨跌幅的API，后来反复对比浏览器加载数据时向服务器请求的url，找到了一个并未写在文档中的url（<a href="https://www.jubi.com/coin/trends），通过这个url请求的数据是每个币种的历史价格，当然也包括前一天的收盘价格，涨跌幅随之也能计算。" target="_blank" rel="noopener">https://www.jubi.com/coin/trends），通过这个url请求的数据是每个币种的历史价格，当然也包括前一天的收盘价格，涨跌幅随之也能计算。</a></li>
+<li>……</li>
+</ul>
+<h4 id="二、挂单买入"><a href="#二、挂单买入" class="headerlink" title="二、挂单买入"></a>二、挂单买入</h4><p>经过第一步获取到可以投机的币种，接下来便是快速买入。 应该以什么价格买入？我这里采用的策略是挂高于当前价格20%的单买入，原因如下：</p>
+<ul>
+<li>鉴于狗庄的拉升是迅速的，若我获取到当前的价格后，立即以该价格挂单，这样八成是买不到的，因为这中间有一来一回的数据请求过程，网络延迟就有几十甚至上百毫秒，价格肯定已经更高了。</li>
+<li>平台交易系统的成交规则是买一卖一价成交。举个例子，btc当前的卖一价是$3000、数量1个，卖二价是$3100、数量1个，卖三价是$4000、数量2个，那么当以$4000的价格挂单买入1.5个btc时，最终成交情况是$3000成交1个、$3100成交0.5个，而非$4000成交1.5个。所以，挂高于当前价格20%的单能以当前的最低卖价成交，而又不至于买不到。</li>
+</ul>
+<p>[caption id=”” align=”aligncenter” width=”690”]<img src="http://gaojx-1253732420.cossh.myqcloud.com/%E7%B4%A0%E6%9D%90/TIM%E6%88%AA%E5%9B%BE20180206013821.jpg" alt=""> 测试时的一次自动交易记录（自动买入，手动卖出）[/caption]</p>
+<h4 id="三、出货"><a href="#三、出货" class="headerlink" title="三、出货"></a>三、出货</h4><p>考虑到庄家出货需要一定的时间，最初是考虑人工出货的，不使用程序。 测试时发现，人工手动出货容易受到情绪以及心态的影响，一不小心就能从盈利变为亏损，所以后面决定采用程序自动出货（最终并没有投入使用）。 出货条件是一旦检测到买入的币种价格开始下跌便全部卖出，挂单价格是第二步的成交价格。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这个策略是17年八月底到九月初萌生并开始实现的（拖了半年才写出这篇23333），起初只实现了前两个部分。经过几个晚上的测试，程序能够很好的按照策略执行，还没等实现第三个部分，zf发了个文件<a href="http://www.pbc.gov.cn/goutongjiaoliu/113456/113469/3374222/index.html" target="_blank" rel="noopener">《中国人民银行 中央网信办 工业和信息化部 工商总局 银监会 证监会 保监会关于防范代币发行融资风险的公告》</a>，监管虚拟货币市场，并关停国内各大交易所，聚币网也就这样被关停了。。。 <img src="http://gaojx-1253732420.cossh.myqcloud.com/%E7%B4%A0%E6%9D%90/TIM%E6%88%AA%E5%9B%BE20180206011022.jpg" alt="">     虽然这个策略被扼杀在了摇篮中，但我奔向温饱的梦想是永远无法被扼杀的，哈哈哈。 最近一直在琢磨量化交易的策略，也封装了一些平台的原始API，并实现了一个量化交易，每天自动交易2w到3w次左右，但盈利率比较低。 所以如果有什么想法和策略尽情联系我，我们一起走向温饱哈哈。      </p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>下面是一些用python封装的API。 login.py</p>
+<p># -<em>- coding: utf-8 -</em>-</p>
+<p>“””<br>成功请求的参数顺序：<br>signature,nonce,key<br>nonce,        ,key<br>(nonce参数一定要在key前面)<br>“””</p>
+<p>import requests<br>import time<br>import hashlib<br>import hmac<br>import collections<br>import urllib<br>import urllib2</p>
+<p>class Jubi(object):</p>
+<pre><code>def \_\_init\_\_(self, public\_key, private\_key):
+    self.public\_key = public\_key
+    self.private\_key = private\_key
+
+def get_nonce(self):
+    curr_stamp = time.time()*100
+    nonce = int(curr_stamp)
+    return nonce
+
+def get_md5(self,s):
+    m = hashlib.md5()
+    m.update(s.encode())
+    return m.hexdigest()
+
+def get_params(self):
+    nonce\_value = self.get\_nonce()
+    key\_value = self.public\_key
+    private\_key = self.private\_key
+    string = (&apos;nonce=&apos; + str(nonce\_value) + &apos;&amp;&apos; + &apos;key=&apos; + key\_value).encode(&apos;utf-8&apos;)
+    private\_key\_md5 = self.get\_md5(private\_key).encode(&apos;utf-8&apos;)
+    signature = hmac.new(private\_key\_md5, string, digestmod=hashlib.sha256).hexdigest()
+    dict_ordered = collections.OrderedDict()
+    dict_ordered\[&apos;signature&apos;\] = signature
+    dict\_ordered\[&apos;nonce&apos;\] = nonce\_value
+    dict\_ordered\[&apos;key&apos;\] = key\_value
+    return dict_ordered
+
+def get\_trade\_list_params(self, since, coin, type):
+    nonce\_value = self.get\_nonce()
+    key\_value = self.public\_key
+    private\_key = self.private\_key
+    string = (&apos;nonce=&apos; + str(nonce\_value) + &apos;&amp;&apos; + &apos;key=&apos; + key\_value + &apos;&amp;since=&apos; + str(since) + &apos;&amp;coin=&apos; + coin + &apos;&amp;type=&apos; +type).encode(&apos;utf-8&apos;)
+    private\_key\_md5 = self.get\_md5(private\_key).encode(&apos;utf-8&apos;)
+    signature = hmac.new(private\_key\_md5, string, digestmod=hashlib.sha256).hexdigest()
+    dict_ordered = collections.OrderedDict()
+    dict_ordered\[&apos;signature&apos;\] = signature
+    dict\_ordered\[&apos;nonce&apos;\] = nonce\_value
+    dict\_ordered\[&apos;key&apos;\] = key\_value
+    dict_ordered\[&apos;since&apos;\] = since
+    dict_ordered\[&apos;coin&apos;\] = coin
+    dict_ordered\[&apos;type&apos;\] = type
+    return dict_ordered
+
+def get\_trade\_view_params(self, id, coin):
+    nonce\_value = self.get\_nonce()
+    key\_value = self.public\_key
+    private\_key = self.private\_key
+    string = (&apos;nonce=&apos; + str(nonce\_value) + &apos;&amp;&apos; + &apos;key=&apos; + key\_value + &apos;&amp;id=&apos; + str(id) + &apos;&amp;coin=&apos; + coin).encode(&apos;utf-8&apos;)
+    private\_key\_md5 = self.get\_md5(private\_key).encode(&apos;utf-8&apos;)
+    signature = hmac.new(private\_key\_md5, string, digestmod=hashlib.sha256).hexdigest()
+    dict_ordered = collections.OrderedDict()
+    dict_ordered\[&apos;signature&apos;\] = signature
+    dict\_ordered\[&apos;nonce&apos;\] = nonce\_value
+    dict\_ordered\[&apos;key&apos;\] = key\_value
+    dict_ordered\[&apos;id&apos;\] = id
+    dict_ordered\[&apos;coin&apos;\] = coin
+    return dict_ordered
+
+def get\_trade\_add_params(self, amount, price, type, coin):
+    nonce\_value = self.get\_nonce()
+    key\_value = self.public\_key
+    private\_key = self.private\_key
+    string = (&apos;nonce=&apos; + str(nonce\_value) + &apos;&amp;key=&apos; + key\_value + &apos;&amp;amount=&apos; + str(amount) +&apos;&amp;price=&apos; +str(price) +&apos;&amp;type=&apos; +type +&apos;&amp;coin=&apos;+coin).encode(&apos;utf-8&apos;)
+    #string = &quot;amount=&quot;+str(amount)+&quot;&amp;nonce=&quot;+str(nonce\_value)+&quot;&amp;type=&quot;+type+&quot;&amp;key=&quot;+key\_value+&quot;&amp;price=&quot;+str(price)+&quot;&amp;coin=&quot;+coin
+    private\_key\_md5 = self.get\_md5(private\_key).encode(&apos;utf-8&apos;)
+    signature = hmac.new(private\_key\_md5, string, digestmod=hashlib.sha256).hexdigest()
+
+    dict_ordered = collections.OrderedDict()
+    dict_ordered\[&apos;signature&apos;\] = signature
+    dict\_ordered\[&apos;nonce&apos;\] = nonce\_value
+    dict\_ordered\[&apos;key&apos;\] = key\_value
+    dict_ordered\[&apos;amount&apos;\] = amount
+    dict_ordered\[&apos;price&apos;\] = price
+    dict_ordered\[&apos;type&apos;\] = type
+    dict_ordered\[&apos;coin&apos;\] = coin
+
+    return dict_ordered
+</code></pre><p>ticker.py</p>
+<p># -<em>- coding: utf-8 -</em>-</p>
+<p>import requests<br>import time<br>import login<br>import urllib2<br>import json</p>
+<p>class ticker(object):</p>
+<pre><code>def \_\_init\_\_(self, coin):
+    self.url = &apos;https://www.jubi.com/api/v1/ticker/&apos;
+    self.coin = coin
+
+def get\_coin\_ticker(self):
+    self.resp = requests.post(url = self.url, data = {&apos;coin&apos;: self.coin}).json()
+    response = urllib2.urlopen(&apos;https://www.jubi.com/coin/trends&apos;)
+    html = response.read().decode(&quot;utf8&quot;,&quot;ignore&quot;).encode(&quot;gbk&quot;,&quot;ignore&quot;)
+    trends = json.loads(html)
+
+    self.resp\[&apos;yprice&apos;\] = trends\[self.coin\]\[&apos;yprice&apos;\]
+
+    last = self.resp\[&apos;last&apos;\].encode(&quot;utf-8&quot;)    #unicode to string
+    self.resp\[&apos;last&apos;\] = float(last)                #string to float
+    buy = self.resp\[&apos;buy&apos;\].encode(&quot;utf-8&quot;)
+    self.resp\[&apos;buy&apos;\] = float(buy)
+    sell = self.resp\[&apos;sell&apos;\].encode(&quot;utf-8&quot;)
+    self.resp\[&apos;sell&apos;\] = float(sell)
+    high = self.resp\[&apos;high&apos;\].encode(&quot;utf-8&quot;)
+    self.resp\[&apos;high&apos;\] = float(high)
+    low = self.resp\[&apos;low&apos;\].encode(&quot;utf-8&quot;)
+    self.resp\[&apos;low&apos;\] = float(low)
+
+    if self.resp\[&apos;yprice&apos;\] != 0:        
+        self.resp\[&apos;rate&apos;\] = (self.resp\[&apos;last&apos;\]/self.resp\[&apos;yprice&apos;\]) - 1
+    else:
+        self.resp\[&apos;rate&apos;\] = -1.0
+    return self.resp
+
+def calc\_all\_rate(self):
+    allTicker = self.get_allTicker()
+    #print allTicker
+    self.zero_num = 0
+    headers = {&apos;User-agent&apos; : &apos;Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0&apos;}
+
+    request = urllib2.Request(&apos;https://www.jubi.com/coin/trends&apos;, headers = headers)
+    response = urllib2.urlopen(request)
+    #response = urllib2.urlopen(&apos;https://www.jubi.com/coin/trends&apos;)
+    html = response.read().decode(&quot;utf8&quot;,&quot;ignore&quot;).encode(&quot;gbk&quot;,&quot;ignore&quot;)
+    trends = json.loads(html)
+    for coin in trends:
+        coin_yprice = trends\[coin\]\[&apos;yprice&apos;\]
+        allTicker\[coin\]\[&apos;yprice&apos;\] = coin_yprice
+
+        if coin_yprice != 0:
+            allTicker\[coin\]\[&apos;rate&apos;\] = round(allTicker\[coin\]\[&apos;last&apos;\]/coin_yprice - 1, 4)
+        else:
+            allTicker\[coin\]\[&apos;rate&apos;\] = -1.0000
+        if allTicker\[coin\]\[&apos;rate&apos;\] == 0:
+            self.zero_num += 1
+    #print self.zero_num
+        #print coin , allTicker\[coin\]\[&apos;rate&apos;\]\
+    return allTicker
+
+def sort\_by\_rate(self):
+    allTicker = self.calc\_all\_rate()
+    #print allTicker
+    #for coin in allTicker:
+    #    backitems = \[allTicker\[coin\]\[&apos;rate&apos;\], coin\]
+    self.backitems=\[\[allTicker\[coin\]\[&apos;rate&apos;\],coin\] for coin in allTicker\]
+    self.backitems.sort(reverse = True)
+    &apos;&apos;&apos;for i in range(0, len(backitems)):
+        print backitems\[i\]&apos;&apos;&apos;
+    return self.backitems
+
+def print_ticker(self):
+    for i in range(0, len(self.backitems)):
+        print self.backitems\[i\]
+
+def get_allTicker(self):
+    url = &apos;https://www.jubi.com/api/v1/allticker/&apos;
+    result = requests.post(url = url).json()
+    return result
+
+def get_orders(self):
+    url = &apos;https://www.jubi.com/api/v1/orders/&apos;
+    result = requests.post(url = url, data = self.coin).json()
+    return result
+</code></pre><p>  trade.py</p>
+<p># -<em>- coding: utf-8 -</em>-</p>
+<p>import requests<br>import time<br>import login</p>
+<p>class trade(object):</p>
+<pre><code>def \_\_init\_\_(self, account):
+    self.account = account
+
+def get\_trade\_list(self, since, coin, type):
+    params = self.account.get\_trade\_list_params(since, coin, type)
+    url = &apos;https://www.jubi.com/api/v1/trade_list/&apos;
+    self.list = requests.post(url = url, data = params).json()
+    return self.list
+
+def get\_trade\_view(self, id, coin):
+    params = self.account.get\_trade\_view_params(id, coin)
+    url = &apos;https://www.jubi.com/api/v1/trade_view/&apos;
+    self.view = requests.post(url = url, data = params).json()
+    return self.view
+
+def trade_cancel(self, id, coin):
+    params = self.account.get\_trade\_view_params(id, coin)
+    url = &apos;https://www.jubi.com/api/v1/trade_cancel/&apos;
+    self.cancel = requests.post(url = url, data = params).json()
+    return self.cancel
+
+def trade_add(self, amount, price, type, coin):
+    params = self.account.get\_trade\_add_params(amount, price, type, coin)
+    #print params
+    url = &apos;https://www.jubi.com/api/v1/trade_add/&apos;
+    self.add = requests.post(url = url, data = params).json()
+    #print self.add
+    return self.add
+</code></pre><p>balance.py</p>
+<p># -<em>- coding: utf-8 -</em>-</p>
+<p>import requests<br>import time<br>import login</p>
+<p>class balance(object):</p>
+<pre><code>def \_\_init\_\_(self, account):
+    self.account = account
+    self.url = &apos;https://www.jubi.com/api/v1/balance/&apos;
+    self.data = self.account.get_params()
+    self.resp = requests.post(url = self.url, data = self.data).json()
+
+def get\_all\_balances(self):
+    return self.resp
+
+def get_asset(self):
+    return self.resp\[&apos;asset&apos;\]
+
+def get\_coin\_balances(self, coin):
+    #Coin\_balance = coin + &apos;\_balance&apos;
+    #Coin\_lock = coin + &apos;\_lock&apos;
+    coin\_balances = {&apos;balance&apos; : self.get\_coin\_balance(coin), &apos;lock&apos; : self.get\_coin_lock(coin)}
+    return coin_balances                
+
+def get\_coin\_balance(self, coin):
+    Coin = coin + &apos;_balance&apos;
+    return self.resp\[Coin\]
+
+def get\_coin\_lock(self, coin):
+    Coin = coin + &apos;_lock&apos;
+    return self.resp\[Coin\]
+</code></pre><p>  其他交易平台API的使用方法类似于此</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/02/06/jubi/" data-id="cjqn5ydmv000b0wuuw1w15ivn" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Digital-currency/">Digital currency</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/02/06/learn-blockchains-by-building-one/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Learn Blockchains by Building One
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/05/ecnu-library/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">关于华师大图书馆创意空间预约系统</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blockchains/">Blockchains</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Blockchains/Digital-currency/">Digital currency</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Capriccio/">Capriccio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataAnalysis/">DataAnalysis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Digital-currency/">Digital currency</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ECNU/">ECNU</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataAnalysis/">DataAnalysis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Digital-currency/">Digital currency</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECNU/">ECNU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SeamCarving/">SeamCarving</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blockchains/">blockchains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/DataAnalysis/" style="font-size: 15px;">DataAnalysis</a> <a href="/tags/Digital-currency/" style="font-size: 15px;">Digital currency</a> <a href="/tags/ECNU/" style="font-size: 10px;">ECNU</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/SeamCarving/" style="font-size: 10px;">SeamCarving</a> <a href="/tags/blockchains/" style="font-size: 15px;">blockchains</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/01/08/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/26/seamcarving/">图像接缝剪裁SeamCarving的实现</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/sklearn-predict-typhoon/">使用Sklearn训练模型预测台风路径</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/16/virtual-currency-automatic-trading-data/">关于通过脚本实现虚拟货币量化交易的部分交易数据（17w+条）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/16/mysql-python-week-number/">关于mysql和python跨年周以及当前周的计算问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

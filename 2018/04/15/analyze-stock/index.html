@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>使用pandas和matplotlib分析各类股票数据 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本篇内容：网络数据采集美交所、沪深交所的多种不同题材股票交易信息，使用python的pandas和matplotlib分析趋势、相关性、可视化等。    以下均在ipython notebook中进行分析。   从Yahoo! Finance下载美交所特斯拉、58同城、网易、百度以及亚马逊的股票数据； 下载豫能控股、申能股份、东材科技、盾安环境以及博威合金等沪深交所新能源类股票； 下载中国太保">
+<meta name="keywords" content="DataAnalysis,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用pandas和matplotlib分析各类股票数据">
+<meta property="og:url" content="http://yoursite.com/2018/04/15/analyze-stock/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本篇内容：网络数据采集美交所、沪深交所的多种不同题材股票交易信息，使用python的pandas和matplotlib分析趋势、相关性、可视化等。    以下均在ipython notebook中进行分析。   从Yahoo! Finance下载美交所特斯拉、58同城、网易、百度以及亚马逊的股票数据； 下载豫能控股、申能股份、东材科技、盾安环境以及博威合金等沪深交所新能源类股票； 下载中国太保">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/all_1.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/all_2.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/meigu_1.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/meigu_2.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/meigu_3.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/meigu_4.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/xinnegyuan_1.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/xinnegyuan_3.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/xinnengyuan_2.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/xinnengyuan_4.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/baoxian_1.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/baoxian_2.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/baoxian_3.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/baoxian_4.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/hulianwang_1.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/hulianwang_2.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/hulianwang_3.png">
+<meta property="og:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/hulianwang_4.png">
+<meta property="og:updated_time" content="2019-01-08T02:40:04.858Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用pandas和matplotlib分析各类股票数据">
+<meta name="twitter:description" content="本篇内容：网络数据采集美交所、沪深交所的多种不同题材股票交易信息，使用python的pandas和matplotlib分析趋势、相关性、可视化等。    以下均在ipython notebook中进行分析。   从Yahoo! Finance下载美交所特斯拉、58同城、网易、百度以及亚马逊的股票数据； 下载豫能控股、申能股份、东材科技、盾安环境以及博威合金等沪深交所新能源类股票； 下载中国太保">
+<meta name="twitter:image" content="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/all_1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-analyze-stock" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/15/analyze-stock/" class="article-date">
+  <time datetime="2018-04-15T08:41:28.000Z" itemprop="datePublished">2018-04-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/DataAnalysis/">DataAnalysis</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用pandas和matplotlib分析各类股票数据
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>  本篇内容：网络数据采集美交所、沪深交所的多种不同题材股票交易信息，使用python的pandas和matplotlib分析趋势、相关性、可视化等。</p>
+<hr>
+<p>  <em>以下均在ipython notebook中进行分析。</em>   从Yahoo! Finance下载美交所特斯拉、58同城、网易、百度以及亚马逊的股票数据； 下载豫能控股、申能股份、东材科技、盾安环境以及博威合金等沪深交所新能源类股票； 下载中国太保、中国人寿、天茂集团、中国平安以及新华保险等沪深交所保险类股票； 下载游族网络、浪潮软件、皖通科技、北纬科技以及浙大网新等沪深交所互联网类股票。  </p>
+<p>import pandas as pd<br>from pandas import DataFrame<br>import numpy as np<br>from pandas_datareader import data<br>import pandas_datareader as pdr</p>
+<p>%matplotlib inline<br>import matplotlib.pyplot as plt<br>import matplotlib as mpl</p>
+<p>mpl.rcParams[‘font.sans-serif’] = [‘SimHei’]<br>mpl.rcParams[‘font.serif’] = [‘SimHei’]<br>import seaborn as sns<br>sns.set_style(“darkgrid”,{“font.sans-serif”:[‘simhei’, ‘Arial’]})</p>
+<p>stocks = [‘TSLA’, ‘WUBA’, ‘NTES’, ‘BIDU’, ‘AMZN’,<br>          ‘001896.SZ’, ‘600642.SS’, ‘601208.SS’, ‘002011.SZ’, ‘601137.SS’,<br>          ‘601601.SS’, ‘601628.SS’, ‘000627.SZ’, ‘601318.SS’, ‘601336.SS’,<br>          ‘002174.SZ’, ‘600756.SS’, ‘002331.SZ’, ‘002148.SZ’, ‘600797.SS’,]<br>names = [ ‘特斯拉’, ‘58同城’, ‘网易’, ‘百度’, ‘亚马逊’,<br>         ‘豫能控股’, ‘申能股份’, ‘东材科技’, ‘盾安环境’, ‘博威合金’,<br>         ‘中国太保’, ‘中国人寿’, ‘天茂集团’, ‘中国平安’, ‘新华保险’,<br>         ‘游族网络’, ‘浪潮软件’, ‘皖通科技’, ‘北纬科技’, ‘浙大网新’]<br>for i in range(len(stocks)):<br>    name = pdr.get_data_yahoo(stocks[i])<br>    path = ‘data/‘ + names[i] + ‘.csv’<br>    out_file = open(path, ‘w’)<br>    name.to_csv(out_file)<br>    out_file.close()</p>
+<p>  下面是对股票数据进行整理，并且绘制图表的过程： 对原始数据按各项指标（开盘价、收盘价、最高价以及最低价等）进行分类，并且有必要对数据进行归一化处理，消除价格因素对股票趋势判断的影响；并对股票进行趋势分析、相关性分析等。  </p>
+<h3 id="要点说明"><a href="#要点说明" class="headerlink" title="要点说明"></a>要点说明</h3><ul>
+<li>在选取股票时，为了方便分析，尽量选取记录超过1000个交易日的股票，并且取今天以前1000个交易日的数据进行分析</li>
+<li>在对多支股票的趋势进行分析时，股票价格会影响趋势的判断，需要对股价进行归一化处理。<ul>
+<li>常见的归一化方法（<a href="https://blog.csdn.net/hjxzb/article/details/78610961" target="_blank" rel="noopener">链接</a>）：<ul>
+<li>min-max标准化</li>
+<li>Z-score标准化方法</li>
+</ul>
+</li>
+<li>这里采用min-max标准化方法</li>
+</ul>
+</li>
+<li>采用pearson相关系数进行相关性分析</li>
+</ul>
+<h3 id="股价总览"><a href="#股价总览" class="headerlink" title="股价总览"></a>股价总览</h3><p>data_set = {}<br>data_set[‘美股科技类’] = [ names[i] for i in range(0, 5)]<br>data_set[‘新能源类’] = [ names[i] for i in range(5, 10)]<br>data_set[‘保险类’] = [ names[i] for i in range(10, 15)]<br>data_set[‘互联网类’] = [ names[i] for i in range(15, 20)]</p>
+<p>data_all = {}<br>for i in names:<br>    file_name = ‘data/‘ + i + ‘.csv’<br>    f = open(file_name)<br>    data = pd.read_csv(f)<br>    data = data.head(1000)<br>#     print(i, data[‘close’].median())<br>    data_all[i] = data[‘adjclose’]<br>data_all[‘date’] = data[‘date’]<br>data_all = DataFrame(data_all)<br>data_all.set_index([‘date’], inplace=True)<br>data_all.index = pd.to_datetime(data_all.index)</p>
+<p>data_all.plot(kind=’line’, figsize=(12,8),<br>             title=’所有股票原始数据（1000个交易日）’)<br>plt.legend(bbox_to_anchor=(1.0, 1))</p>
+<p># data_all.corr()</p>
+<p>df = data_all<br>for i in data_all.columns:<br>    df[i] = df[i].rolling(window=42, center=False).mean()</p>
+<p>df.plot(kind=’line’, figsize=(12,8),<br>             title=’所有股票移动平均值42d（1000个交易日）’)<br>plt.legend(bbox_to_anchor=(1.0, 1))</p>
+<p># data_all.corr()</p>
+<p>  <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/all_1.png" alt=""> 此图表显示了所有股票在过去1000个交易日内的收盘价格 <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/all_2.png" alt=""> 此图表显示了所有股票在过去1000个交易日中42d移动平均值 由此可见，除个别股票趋势明显外，大多数股票趋势难以判断，需要分类别进行后续分析。  </p>
+<h3 id="美股科技类"><a href="#美股科技类" class="headerlink" title="美股科技类"></a>美股科技类</h3><p>data_all_1 = {}<br>for i in data_set[‘美股科技类’]:<br>    file_name = ‘data/‘ + i + ‘.csv’<br>    f = open(file_name)<br>    data = pd.read_csv(f)<br>    data = data.head(1000)<br>    data_all_1[i] = data[‘adjclose’]<br>#     data_all_1[i] = (data[‘adjclose’] - data[‘adjclose’].min())/(data[‘adjclose’].max() - data[‘adjclose’].min())<br>data_all_1[‘date’] = data[‘date’]<br>data_all_1 = DataFrame(data_all_1)<br>data_all_1.set_index([‘date’], inplace=True)<br>data_all_1.index = pd.to_datetime(data_all_1.index)<br>data_all_1.plot(kind=’line’, figsize=(10,6), title=’美股科技类股票原始数据（1000个交易日）’)<br># plt.legend(bbox_to_anchor=(1.0, 1))</p>
+<p>df = data_all_1<br>for i in data_all_1.columns:<br>    df[i] = df[i].rolling(window=42, center=False).mean()</p>
+<p>df.plot(kind=’line’, figsize=(10,6),<br>             title=’美股科技类移动平均值42d（1000个交易日）’)<br># plt.legend(bbox_to_anchor=(1.0, 1))</p>
+<p>data_all_1 = {}<br>for i in data_set[‘美股科技类’]:<br>    file_name = ‘data/‘ + i + ‘.csv’<br>    f = open(file_name)<br>    data = pd.read_csv(f)<br>    data = data.head(1000)<br>    data_all_1[i] = data[‘adjclose’]<br>    data_all_1[i] = (data[‘adjclose’] - data[‘adjclose’].min())/(data[‘adjclose’].max() - data[‘adjclose’].min())<br>data_all_1[‘date’] = data[‘date’]<br>data_all_1 = DataFrame(data_all_1)<br>data_all_1.set_index([‘date’], inplace=True)<br>data_all_1.index = pd.to_datetime(data_all_1.index)<br>data_all_1.plot(kind=’line’, figsize=(10,6), title=’美股科技类股票数据（1000个交易日）’)<br># plt.legend(bbox_to_anchor=(1.0, 1))</p>
+<p>df = data_all_1<br>for i in data_all_1.columns:<br>    df[i] = df[i].rolling(window=42, center=False).mean()</p>
+<p>df.plot(kind=’line’, figsize=(10,6),<br>             title=’经归一化处理的美股科技类移动平均值42d（1000个交易日）’)<br># plt.legend(bbox_to_anchor=(1.0, 1))</p>
+<p>data_all_1.corr()</p>
+<p>  <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/meigu_1.png" alt=""> 此图表显示了科技类美股在过去1000个交易日内的收盘价格   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/meigu_2.png" alt=""> 此图显示了科技类美股在过去1000个交易日内42d移动平均值 通过该图表可以看到，亚马逊股票在此期间上升趋势明显，并且价格明显高于其他股票。 为了消除价格因素对股票趋势分析的影响，需要对股票数据采用归一化处理。   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/meigu_3.png" alt="">   此图表显示了经归一化处理后的科技类美股1000个交易日内42d移动平均值 通过此图表可以看出亚马逊和网易股价呈明显上升趋势；特斯拉股价在2016年末以前在特定区间内呈震荡走势，过后呈明显上升趋势；58同城和百度股价处于波动状态。   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/meigu_4.png" alt=""> 此表显示了科技类美股Pearson相关系数矩阵 从表中可以看出亚马逊和网易股价相关系数为0.95，相关性很强；其次特斯拉与网易之间、特斯拉与亚马逊之间相关系数皆约为0.7，相关性较强；并且所有股票价格均呈正相关。  </p>
+<h3 id="沪深交所新能源类"><a href="#沪深交所新能源类" class="headerlink" title="沪深交所新能源类"></a>沪深交所新能源类</h3><p>代码略。 <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/xinnegyuan_1.png" alt=""> 此图表显示了科技类美股在过去1000个交易日内的收盘价格 可以看出，所选新能源类股票走势基本相同，可以通过42d移动平均值来进一步验证结论。   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/xinnegyuan_3.png" alt=""> 此图显示了沪深交所新能源类股票在过去1000个交易日内42d移动平均值 通过该图表可以看到，所有新能源类股票在2015年有较大幅度的上涨，并且在下半年股价有所回调；2016年至今，所有新能源类股票都呈震荡趋势。 为了消除价格因素对股票趋势分析的影响，下面对股票数据采用归一化处理。   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/xinnengyuan_2.png" alt=""> 此图表显示了经归一化处理后的沪深交所新能源类股票1000个交易日内42d移动平均值 通过此图表可以看出所有股票在2015年四月之前呈上涨趋势，并且在2015年下半年有较大幅度的回调；其中博威合金在回调后走出了第二轮上涨趋势，其余股票在波动后都有所回落。   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/xinnengyuan_4.png" alt=""> 此表显示了沪深交所新能源类股票Pearson相关系数矩阵 从表中可以看出东财科技与除博威合金之外的其他所有股票相关性都比较强，豫能控股、申能股份、盾安环境也是如此；博威合金与其他所有股票相关性都比较弱。  </p>
+<h3 id="沪深交所保险类"><a href="#沪深交所保险类" class="headerlink" title="沪深交所保险类"></a>沪深交所保险类</h3><p>代码略。 <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/baoxian_1.png" alt=""> 此图表显示了沪深交所保险类股票在过去1000个交易日内的收盘价格 由图可见，各个股票走势大致相同，可以通过下面的42d移动平均值进行验证。   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/baoxian_2.png" alt=""> 此图显示了沪深交所保险类股票在过去1000个交易日内42d移动平均值 通过该图表可以看到，所有股票在2015年和2018年都有个阶段性上涨阶段，随后回落；总体趋势是类似的，股价在震荡上涨。 为了消除价格因素对股票趋势分析的影响，需要对股票数据采用归一化处理。   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/baoxian_3.png" alt=""> 此图表显示了经归一化处理后的沪深交所保险类股票1000个交易日内42d移动平均值 通过此图表可以看出所有股票在2015年与2018年出现了大幅上涨的趋势，并且在过后都有所回落，与之前讨论结果相同。   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/baoxian_4.png" alt=""> 此表显示了科技类美股Pearson相关系数矩阵 从表中可以看出大部分保险类股票之间是强相关的；相关性最弱的天茂集团与中国平安之间的相关系数也为0.53，说明该行业之间股票的走势是联动的，相关性很强。  </p>
+<h3 id="沪深交所互联网类"><a href="#沪深交所互联网类" class="headerlink" title="沪深交所互联网类"></a>沪深交所互联网类</h3><p>代码略。 <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/hulianwang_1.png" alt=""> 此图显示了沪深交所互联网类股票在过去1000个交易日内的收盘价格   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/hulianwang_2.png" alt=""> 此图显示了沪深交所互联网类股票在过去1000个交易日内42d移动平均值 通过该图表可以看到，皖通科技、浪潮软件和游族网络股价波动较大；北纬科技和浙大网新股价波动相对较小；总体呈区间内震荡趋势。 为了消除价格因素对股票趋势分析的影响，需要对股票数据采用归一化处理。   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/hulianwang_3.png" alt=""> 此图表显示了经归一化处理后的沪深交所互联网类股票1000个交易日内42d移动平均值 通过此图表可以看出所有股票皆为波动趋势；2015年上半年除浪潮软件外所有股票大幅上涨，随后回落，浪潮软件上涨较为滞后。   <img src="http://gaojx-1253732420.file.myqcloud.com/%E7%B4%A0%E6%9D%90/analyze-stocks/hulianwang_4.png" alt=""> 此表显示了科技类美股Pearson相关系数矩阵 从表中可以看出游族网络、浙大网新以及皖通科技三者之间相关性较强；其他股票相关性较弱，且北纬科技与浪潮软件之间呈现较弱的负相关状态。  </p>
+<ul>
+<li>沪深交所绝大部分股票在2015年出现了大幅度的上涨趋势，随后有较大的回落。美交所股票并无明显的此种现象。</li>
+<li>沪深交所同题材下的股票价格走势有比较强的相关性。由此猜测，国内一些政策性的利好、利空消息会对股票价格产生较大的影响。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/04/15/analyze-stock/" data-id="cjqn5ydmk00020wuucxiiby60" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DataAnalysis/">DataAnalysis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/16/mysql-python-week-number/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          关于mysql和python跨年周以及当前周的计算问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/27/install-anaconda/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">在服务器上装Anaconda给自己挖的坑</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blockchains/">Blockchains</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Blockchains/Digital-currency/">Digital currency</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Capriccio/">Capriccio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataAnalysis/">DataAnalysis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Digital-currency/">Digital currency</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ECNU/">ECNU</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/未分类/">未分类</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataAnalysis/">DataAnalysis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Digital-currency/">Digital currency</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECNU/">ECNU</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SeamCarving/">SeamCarving</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blockchains/">blockchains</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/DataAnalysis/" style="font-size: 15px;">DataAnalysis</a> <a href="/tags/Digital-currency/" style="font-size: 15px;">Digital currency</a> <a href="/tags/ECNU/" style="font-size: 10px;">ECNU</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/SeamCarving/" style="font-size: 10px;">SeamCarving</a> <a href="/tags/blockchains/" style="font-size: 15px;">blockchains</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/01/08/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/26/seamcarving/">图像接缝剪裁SeamCarving的实现</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/sklearn-predict-typhoon/">使用Sklearn训练模型预测台风路径</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/16/virtual-currency-automatic-trading-data/">关于通过脚本实现虚拟货币量化交易的部分交易数据（17w+条）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/16/mysql-python-week-number/">关于mysql和python跨年周以及当前周的计算问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
